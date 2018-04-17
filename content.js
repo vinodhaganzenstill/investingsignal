@@ -69,6 +69,7 @@ if(href.indexOf('technical') !== -1){
 	  setTimeout(function(){
 	  	$injector.invoke(function($rootScope, $compile) { 
 		    $template = `<div class="InvestingCustomization" ng-app="todoApp" ng-controller="TodoListController">
+		    		<input ng-model="search">
 		        	<table border="1" width="100%">
 		        		<tr>
 		        			<th>#</th>
@@ -77,7 +78,7 @@ if(href.indexOf('technical') !== -1){
 		        			<th>Signal</th>
 		        			<th>Time</th>
 		        		</tr>
-			        	<tr ng-repeat="scr in screener_result | orderBy: 'loadedTime' : true">
+			        	<tr ng-repeat="scr in screener_result | filter: search | orderBy: 'loadedTime' : true">
 			        		<td>{{$index+1}}</td>
 			        		<td>{{scr.stockName}}</td>
 			        		<td>{{scr.stockPrice}}</td>
