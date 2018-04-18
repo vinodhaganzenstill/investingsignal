@@ -12,7 +12,9 @@
   "manifest_version": 2,
   "content_scripts": [
     {
-      "matches": ["https://in.investing.com/*", "http://localhost/*"],
+      "matches": ["https://in.investing.com/technical/personalized-quotes-technical-summary", "https://in.investing.com/technical/stocks-technical-summary",
+      "https://in.investing.com/technical/indices-technical-summary", "https://in.investing.com/technical/futures-technical-summary",
+      "https://in.investing.com/technical/commodities-technical-summary"],
       "js": ["jquery.js", "angular.js", "firebase.js", "instrument.js", "content.js"],
       "css": ["style.css"]
     }

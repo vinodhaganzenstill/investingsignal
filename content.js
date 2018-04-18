@@ -62,6 +62,9 @@ if(href.indexOf('technical') !== -1){
 	  		$scope.screener_result = JSON.parse(localStorage.getItem('investingDomainStockList'));
 	  		$scope.screener_result = !!$scope.screener_result ? $scope.screener_result : [];
 	  	}, 10000);
+
+	  	$scope.fiter = {};
+
 	  });
 
 	  var $injector = angular.injector(['ng', 'todoApp']);
@@ -69,7 +72,35 @@ if(href.indexOf('technical') !== -1){
 	  setTimeout(function(){
 	  	$injector.invoke(function($rootScope, $compile) { 
 		    $template = `<div class="InvestingCustomization" ng-app="todoApp" ng-controller="TodoListController">
-		    		<input ng-model="search">
+		    		<input ng-model="filter.stockName">
+		    		<br>
+		    		5Mins Candle 
+		    		<input type="radio" name="fiveMins" ng-model="filter.fiveMins" value=""> Reset
+		    		<input type="radio" name="fiveMins" ng-model="filter.fiveMins" value="Sell"> Sell
+		    		<input type="radio" name="fiveMins" ng-model="filter.fiveMins" value="Strong Sell"> Strong Sell
+		    		<input type="radio" name="fiveMins" ng-model="filter.fiveMins" value="Buy">Buy
+		    		<input type="radio" name="fiveMins" ng-model="filter.fiveMins" value="Strong Buy">Strong Buy
+		    		<br>
+		    		15Mins Candle 
+		    		<input type="radio" name="fifteenMins" ng-model="filter.fifteenMins" value=""> Reset
+		    		<input type="radio" name="fifteenMins" ng-model="filter.fifteenMins" value="Sell"> Sell
+		    		<input type="radio" name="fifteenMins" ng-model="filter.fifteenMins" value="Strong Sell"> Strong Sell
+		    		<input type="radio" name="fifteenMins" ng-model="filter.fifteenMins" value="Buy">Buy
+		    		<input type="radio" name="fifteenMins" ng-model="filter.fifteenMins" value="Strong Buy">Strong Buy
+		    		<br>
+		    		1Hour Candle 
+		    		<input type="radio" name="hourly" ng-model="filter.hourly" value=""> Reset
+		    		<input type="radio" name="hourly" ng-model="filter.hourly" value="Sell"> Sell
+		    		<input type="radio" name="hourly" ng-model="filter.hourly" value="Strong Sell"> Strong Sell
+		    		<input type="radio" name="hourly" ng-model="filter.hourly" value="Buy">Buy
+		    		<input type="radio" name="hourly" ng-model="filter.hourly" value="Strong Buy">Strong Buy
+		    		<br>
+		    		Day Candle 
+		    		<input type="radio" name="daily" ng-model="filter.daily" value=""> Reset
+		    		<input type="radio" name="daily" ng-model="filter.daily" value="Sell"> Sell
+		    		<input type="radio" name="daily" ng-model="filter.daily" value="Strong Sell"> Strong Sell
+		    		<input type="radio" name="daily" ng-model="filter.daily" value="Buy">Buy
+		    		<input type="radio" name="daily" ng-model="filter.daily" value="Strong Buy">Strong Buy
 		        	<table border="1" width="100%">
 		        		<tr>
 		        			<th>#</th>
@@ -78,7 +109,7 @@ if(href.indexOf('technical') !== -1){
 		        			<th>Signal</th>
 		        			<th>Time</th>
 		        		</tr>
-			        	<tr ng-repeat="scr in screener_result | filter: search | orderBy: 'loadedTime' : true">
+			        	<tr ng-repeat="scr in screener_result | filter: filter | orderBy: 'loadedTime' : true">
 			        		<td>{{$index+1}}</td>
 			        		<td>{{scr.stockName}}</td>
 			        		<td>{{scr.stockPrice}}</td>
