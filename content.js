@@ -1,5 +1,4 @@
-var textchatref;
-
+var textchatref = new Firebase('https://sharemarket-52975.firebaseio.com/Buy-Sell-Signals/');
 function check_stock(){
 	var investingDomainStockDataList =[];
 	var stockName;
@@ -33,14 +32,15 @@ function check_stock(){
 		  isAvailable = investingDomainStockListExist.filter(function(a){return a.stockName === data.stockName;});
 		  if(isAvailable.length === 0 || (isAvailable.length && isAvailable[isAvailable.length - 1].fiveMins != data.fiveMins)) {
 		  	  investingDomainStockListExist.push(data);
+		  	  textchatref.push(data);
 		  }
 	});
 
 	localStorage.setItem('investingDomainStockList', JSON.stringify(investingDomainStockListExist));
 }
-check_stock();
+
 var href = window.location.href;
-if(href.indexOf('technical') !== -1){
+if(href.indexOf('signal') !== -1){
 	angular.module('todoApp', [])
 		.filter('startFrom', function() {
 		    return function(input, start) {
@@ -54,15 +54,27 @@ if(href.indexOf('technical') !== -1){
 		})
 	  .controller('TodoListController', function($scope, $interval) {
 
-	  	$scope.screener_result = JSON.parse(localStorage.getItem('investingDomainStockList'));
-	  	$scope.screener_result = !!$scope.screener_result ? $scope.screener_result : [];
+	  	textchatref.once('value', function(snapshot) {
+	  		var results = snapshot.val();
+	  		$scope.$apply(function(){
+		  		 angular.forEach(results, function(res,k){
+		  		 	$scope.screener_result.push(res);
+		  		 });
+		  	});
+	  	});
 
-	  	$interval(function(){
-	  		check_stock();
-	  		$scope.screener_result = JSON.parse(localStorage.getItem('investingDomainStockList'));
-	  		$scope.screener_result = !!$scope.screener_result ? $scope.screener_result : [];
-	  	}, 10000);
+	  	var dummyflag = false;
+	  	textchatref.on('child_added', function(snapshot) {
+	  		if(dummyflag){
+	  			var results = snapshot.val();
+		  		$scope.$apply(function(){
+		  			$scope.screener_result.push(results);
+		  		});
+	  		}
+	  		dummyflag = true;
+	  	});
 
+	  	$scope.screener_result = [];
 	  	$scope.fiter = {};
 
 	  });
@@ -118,12 +130,12 @@ if(href.indexOf('technical') !== -1){
 			        	</tr>
 		        	</table>
 		        </div>`;
-		    if(href.indexOf('technical') !== -1){
-		    	$('#rightColumn').html($compile($template)($rootScope)); 
-		    } else {
-		    	$('body').prepend($compile($template)($rootScope)); 
-		    }
+		    $('.wrapper').html($compile($template)($rootScope));
 		  });
 	  }, 5000);
 	  
+} else {
+	setInterval(function(){
+		check_stock();
+	}, 10000);
 }

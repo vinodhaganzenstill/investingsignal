@@ -22,9 +22,9 @@
 .InvestingCustomization table th {
     font-weight: bold;
 }
-.earAdv{display: none !important;}
+/*.earAdv{display: none !important;}
 #rightColumn{width: 600px !important;}
-.wrapper{width: 100% !important;}
+.wrapper{width: 100% !important;}*/
 .slider {
   position: absolute;
   cursor: pointer;
