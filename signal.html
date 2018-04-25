@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script type="text/javascript" src="angular.js"></script>
+	<script type="text/javascript" src="firebase.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<title>My Results</title>
+	<script type="text/javascript">
+		var textchatref = new Firebase('https://sharemarket-52975.firebaseio.com/Buy-Sell-Signals/');
+		angular.module('todoApp', [])
+			.filter('startFrom', function() {
+			    return function(input, start) {
+			    	if(input === undefined) {
+			    		return [];
+			    	} else {
+			    		start = +start; //parse to int
+			        	return input.slice(start);
+			    	}
+			    }
+			})
+		  .controller('TodoListController', function($scope, $interval) {
+
+		  	textchatref.once('value', function(snapshot) {
+		  		var results = snapshot.val();
+		  		$scope.$apply(function(){
+			  		 angular.forEach(results, function(res,k){
+			  		 	$scope.screener_result.push(res);
+			  		 });
+			  	});
+		  	});
+
+		  	textchatref.endAt().limit(1).on('child_added', function(snapshot) {
+		  			var results = snapshot.val();
+			  		$scope.$apply(function(){
+			  			$scope.screener_result.push(results);
+			  		});
+		  	});
+
+		  	$scope.screener_result = [];
+		  	$scope.fiter = {};
+
+		  });
+	</script>
+</head>
+<body ng-app="todoApp" >
+	<div class="InvestingCustomization"  ng-app="todoApp" ng-controller="TodoListController">
+    		<input ng-model="filter.stockName">
+    		<br>
+    		5Mins Candle 
+    		<input type="radio" name="fiveMins" ng-model="filter.fiveMins" value=""> Reset
+    		<input type="radio" name="fiveMins" ng-model="filter.fiveMins" value="Sell"> Sell
+    		<input type="radio" name="fiveMins" ng-model="filter.fiveMins" value="Strong Sell"> Strong Sell
+    		<input type="radio" name="fiveMins" ng-model="filter.fiveMins" value="Buy">Buy
+    		<input type="radio" name="fiveMins" ng-model="filter.fiveMins" value="Strong Buy">Strong Buy
+    		<br>
+    		15Mins Candle 
+    		<input type="radio" name="fifteenMins" ng-model="filter.fifteenMins" value=""> Reset
+    		<input type="radio" name="fifteenMins" ng-model="filter.fifteenMins" value="Sell"> Sell
+    		<input type="radio" name="fifteenMins" ng-model="filter.fifteenMins" value="Strong Sell"> Strong Sell
+    		<input type="radio" name="fifteenMins" ng-model="filter.fifteenMins" value="Buy">Buy
+    		<input type="radio" name="fifteenMins" ng-model="filter.fifteenMins" value="Strong Buy">Strong Buy
+    		<br>
+    		1Hour Candle 
+    		<input type="radio" name="hourly" ng-model="filter.hourly" value=""> Reset
+    		<input type="radio" name="hourly" ng-model="filter.hourly" value="Sell"> Sell
+    		<input type="radio" name="hourly" ng-model="filter.hourly" value="Strong Sell"> Strong Sell
+    		<input type="radio" name="hourly" ng-model="filter.hourly" value="Buy">Buy
+    		<input type="radio" name="hourly" ng-model="filter.hourly" value="Strong Buy">Strong Buy
+    		<br>
+    		Day Candle 
+    		<input type="radio" name="daily" ng-model="filter.daily" value=""> Reset
+    		<input type="radio" name="daily" ng-model="filter.daily" value="Sell"> Sell
+    		<input type="radio" name="daily" ng-model="filter.daily" value="Strong Sell"> Strong Sell
+    		<input type="radio" name="daily" ng-model="filter.daily" value="Buy">Buy
+    		<input type="radio" name="daily" ng-model="filter.daily" value="Strong Buy">Strong Buy
+        	<table cellpadding="0" cellspacing="0" border="1" width="100%">
+        		<tr>
+        			<th>#</th>
+        			<th>Stock</th>
+        			<th>Price</th>
+        			<th>Signal</th>
+        			<th>Time</th>
+        		</tr>
+	        	<tr ng-repeat="scr in screener_result | filter: filter | orderBy: 'loadedTime' : true">
+	        		<td>{{$index+1}}</td>
+	        		<td>{{scr.stockName}}</td>
+	        		<td>{{scr.stockPrice}}</td>
+	        		<td><span class="{{scr.fiveMins}}"></span> <span class="{{scr.fifteenMins}}"></span> <span class="{{scr.hourly}}"></span> <span class="{{scr.daily}}"></span></td>
+	        		<td>{{scr.loadedTime | date : 'MMM d, y h:mm:ss'}}</td>
+	        	</tr>
+        	</table>
+        </div>
+</body>
+</html>
