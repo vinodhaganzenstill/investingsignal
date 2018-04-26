@@ -63,15 +63,11 @@ if(href.indexOf('signal') !== -1){
 		  	});
 	  	});
 
-	  	var dummyflag = false;
-	  	textchatref.on('child_added', function(snapshot) {
-	  		if(dummyflag){
-	  			var results = snapshot.val();
+	  	textchatref.endAt().limit(1).on('child_added', function(snapshot) {
+	  		var results = snapshot.val();
 		  		$scope.$apply(function(){
 		  			$scope.screener_result.push(results);
 		  		});
-	  		}
-	  		dummyflag = true;
 	  	});
 
 	  	$scope.screener_result = [];

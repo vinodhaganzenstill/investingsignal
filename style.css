@@ -22,6 +22,14 @@
 .InvestingCustomization table th {
     font-weight: bold;
 }
+.InvestingCustomization {font-family: calibri;}
+.InvestingCustomization h1{text-align: center;}
+.InvestingCustomization .toggle-btn{width: 30px;height: 17px;position: relative;}
+.InvestingCustomization .today_summary > div{float: left;width:40%;margin: 0 5%;}
+.links{text-align: center;margin-bottom: 20px;}
+.links label.active{border-bottom: 2px solid;}
+.allsignals{position: relative;}
+.allsignals .search{position: absolute;right: 10px;top: 70px;}
 /*.earAdv{display: none !important;}
 #rightColumn{width: 600px !important;}
 .wrapper{width: 100% !important;}*/

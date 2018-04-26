@@ -26,6 +26,7 @@
 			  		 angular.forEach(results, function(res,k){
 			  		 	$scope.screener_result.push(res);
 			  		 });
+			  		 $scope.filter_results();
 			  	});
 		  	});
 
@@ -33,62 +34,154 @@
 		  			var results = snapshot.val();
 			  		$scope.$apply(function(){
 			  			$scope.screener_result.push(results);
+			  			$scope.filter_results();
+			  			$scope.put_latest(results);
 			  		});
 		  	});
 
 		  	$scope.screener_result = [];
 		  	$scope.fiter = {};
+		  	$scope.buy_result = [];
+		  	$scope.sell_result = [];
 
+		  	$scope.today = new Date(new Date().toDateString()).getTime();
+
+		  	$scope.filter_results = function(){
+		  		$scope.buy_result = angular.copy($scope.screener_result.filter(function(a){
+			  		return a.loadedTime > $scope.today && a.fiveMins === 'Strong Buy' && a.fifteenMins === 'Strong Buy' && a.hourly === 'Strong Buy' && a.daily === 'Strong Buy';
+			  	}));
+			  	$scope.sell_result = angular.copy($scope.screener_result.filter(function(a){
+			  		return a.loadedTime > $scope.today && a.fiveMins === 'Strong Sell' && a.fifteenMins === 'Strong Sell' && a.hourly === 'Strong Sell' && a.daily === 'Strong Sell'; 
+			  	}));
+			};
+
+			$scope.put_latest = function(res){
+				angular.forEach($scope.buy_result, function(v,k){
+					if(v.stockName === res.stockName){
+						v.fiveMins = res.fiveMins;
+						v.fifteenMins = res.fifteenMins;
+						v.hourly = res.hourly;
+						v.daily = res.daily; 
+					}
+				});
+
+				angular.forEach($scope.sell_result, function(v,k){
+					if(v.stockName === res.stockName){
+						v.fiveMins = res.fiveMins;
+						v.fifteenMins = res.fifteenMins;
+						v.hourly = res.hourly;
+						v.daily = res.daily; 
+					}
+				});
+			};
+
+		  	
+		  	$scope.$watch('buy_result.length', function(n,o){
+
+		  	});
+
+		  	$scope.$watch('sell_result.length', function(n,o){
+
+		  	});
+
+		  	$scope.toggle = true;
 		  });
 	</script>
 </head>
 <body ng-app="todoApp" >
 	<div class="InvestingCustomization"  ng-app="todoApp" ng-controller="TodoListController">
-    		<input ng-model="filter.stockName">
-    		<br>
-    		5Mins Candle 
-    		<input type="radio" name="fiveMins" ng-model="filter.fiveMins" value=""> Reset
-    		<input type="radio" name="fiveMins" ng-model="filter.fiveMins" value="Sell"> Sell
-    		<input type="radio" name="fiveMins" ng-model="filter.fiveMins" value="Strong Sell"> Strong Sell
-    		<input type="radio" name="fiveMins" ng-model="filter.fiveMins" value="Buy">Buy
-    		<input type="radio" name="fiveMins" ng-model="filter.fiveMins" value="Strong Buy">Strong Buy
-    		<br>
-    		15Mins Candle 
-    		<input type="radio" name="fifteenMins" ng-model="filter.fifteenMins" value=""> Reset
-    		<input type="radio" name="fifteenMins" ng-model="filter.fifteenMins" value="Sell"> Sell
-    		<input type="radio" name="fifteenMins" ng-model="filter.fifteenMins" value="Strong Sell"> Strong Sell
-    		<input type="radio" name="fifteenMins" ng-model="filter.fifteenMins" value="Buy">Buy
-    		<input type="radio" name="fifteenMins" ng-model="filter.fifteenMins" value="Strong Buy">Strong Buy
-    		<br>
-    		1Hour Candle 
-    		<input type="radio" name="hourly" ng-model="filter.hourly" value=""> Reset
-    		<input type="radio" name="hourly" ng-model="filter.hourly" value="Sell"> Sell
-    		<input type="radio" name="hourly" ng-model="filter.hourly" value="Strong Sell"> Strong Sell
-    		<input type="radio" name="hourly" ng-model="filter.hourly" value="Buy">Buy
-    		<input type="radio" name="hourly" ng-model="filter.hourly" value="Strong Buy">Strong Buy
-    		<br>
-    		Day Candle 
-    		<input type="radio" name="daily" ng-model="filter.daily" value=""> Reset
-    		<input type="radio" name="daily" ng-model="filter.daily" value="Sell"> Sell
-    		<input type="radio" name="daily" ng-model="filter.daily" value="Strong Sell"> Strong Sell
-    		<input type="radio" name="daily" ng-model="filter.daily" value="Buy">Buy
-    		<input type="radio" name="daily" ng-model="filter.daily" value="Strong Buy">Strong Buy
-        	<table cellpadding="0" cellspacing="0" border="1" width="100%">
-        		<tr>
-        			<th>#</th>
-        			<th>Stock</th>
-        			<th>Price</th>
-        			<th>Signal</th>
-        			<th>Time</th>
-        		</tr>
-	        	<tr ng-repeat="scr in screener_result | filter: filter | orderBy: 'loadedTime' : true">
-	        		<td>{{$index+1}}</td>
-	        		<td>{{scr.stockName}}</td>
-	        		<td>{{scr.stockPrice}}</td>
-	        		<td><span class="{{scr.fiveMins}}"></span> <span class="{{scr.fifteenMins}}"></span> <span class="{{scr.hourly}}"></span> <span class="{{scr.daily}}"></span></td>
-	        		<td>{{scr.loadedTime | date : 'MMM d, y h:mm:ss'}}</td>
-	        	</tr>
-        	</table>
+    		
+    		<h1>Future Results</h1>
+    		<div class="links">
+    			<label ng-click="toggle=true" ng-class="{active:toggle}">Today Summary</label>
+    			<label ng-click="toggle=false;" ng-class="{active:!toggle}">Custom Filter All Signals</label>
+    		</div>
+    		<div ng-if="toggle" class="today_summary">
+    			<div class="today_buy">
+    				<table cellpadding="0" cellspacing="0" border="1" width="100%">
+		        		<tr>
+		        			<th>#</th>
+		        			<th>Stock</th>
+		        			<th>Price</th>
+		        			<th>Signal</th>
+		        			<th>Time</th>
+		        		</tr>
+			        	<tr ng-repeat="scr in buy_result | filter: filter | orderBy: 'loadedTime' : true">
+			        		<td>{{$index+1}}</td>
+			        		<td>{{scr.stockName}}</td>
+			        		<td>{{scr.stockPrice}}</td>
+			        		<td><span class="{{scr.fiveMins}}"></span> <span class="{{scr.fifteenMins}}"></span> <span class="{{scr.hourly}}"></span> <span class="{{scr.daily}}"></span></td>
+			        		<td>{{scr.loadedTime | date : 'MMM d, y h:mm:ss'}}</td>
+			        	</tr>
+		        	</table>	
+    			</div>
+    			<div class="today_sell">
+    				<table cellpadding="0" cellspacing="0" border="1" width="100%">
+		        		<tr>
+		        			<th>#</th>
+		        			<th>Stock</th>
+		        			<th>Price</th>
+		        			<th>Signal</th>
+		        			<th>Time</th>
+		        		</tr>
+			        	<tr ng-repeat="scr in sell_result | filter: filter | orderBy: 'loadedTime' : true">
+			        		<td>{{$index+1}}</td>
+			        		<td>{{scr.stockName}}</td>
+			        		<td>{{scr.stockPrice}}</td>
+			        		<td><span class="{{scr.fiveMins}}"></span> <span class="{{scr.fifteenMins}}"></span> <span class="{{scr.hourly}}"></span> <span class="{{scr.daily}}"></span></td>
+			        		<td>{{scr.loadedTime | date : 'MMM d, y h:mm:ss'}}</td>
+			        	</tr>
+		        	</table>
+    			</div>
+    		</div>
+
+    		<div ng-if="!toggle" class="allsignals">
+	    		<input ng-model="filter.stockName" class="search">
+	    		<br>
+	    		5Mins Candle 
+	    		<input type="radio" name="fiveMins" ng-model="filter.fiveMins" value=""> Reset
+	    		<input type="radio" name="fiveMins" ng-model="filter.fiveMins" value="Sell"> Sell
+	    		<input type="radio" name="fiveMins" ng-model="filter.fiveMins" value="Strong Sell"> Strong Sell
+	    		<input type="radio" name="fiveMins" ng-model="filter.fiveMins" value="Buy">Buy
+	    		<input type="radio" name="fiveMins" ng-model="filter.fiveMins" value="Strong Buy">Strong Buy
+	    		<br>
+	    		15Mins Candle 
+	    		<input type="radio" name="fifteenMins" ng-model="filter.fifteenMins" value=""> Reset
+	    		<input type="radio" name="fifteenMins" ng-model="filter.fifteenMins" value="Sell"> Sell
+	    		<input type="radio" name="fifteenMins" ng-model="filter.fifteenMins" value="Strong Sell"> Strong Sell
+	    		<input type="radio" name="fifteenMins" ng-model="filter.fifteenMins" value="Buy">Buy
+	    		<input type="radio" name="fifteenMins" ng-model="filter.fifteenMins" value="Strong Buy">Strong Buy
+	    		<br>
+	    		1Hour Candle 
+	    		<input type="radio" name="hourly" ng-model="filter.hourly" value=""> Reset
+	    		<input type="radio" name="hourly" ng-model="filter.hourly" value="Sell"> Sell
+	    		<input type="radio" name="hourly" ng-model="filter.hourly" value="Strong Sell"> Strong Sell
+	    		<input type="radio" name="hourly" ng-model="filter.hourly" value="Buy">Buy
+	    		<input type="radio" name="hourly" ng-model="filter.hourly" value="Strong Buy">Strong Buy
+	    		<br>
+	    		Day Candle 
+	    		<input type="radio" name="daily" ng-model="filter.daily" value=""> Reset
+	    		<input type="radio" name="daily" ng-model="filter.daily" value="Sell"> Sell
+	    		<input type="radio" name="daily" ng-model="filter.daily" value="Strong Sell"> Strong Sell
+	    		<input type="radio" name="daily" ng-model="filter.daily" value="Buy">Buy
+	    		<input type="radio" name="daily" ng-model="filter.daily" value="Strong Buy">Strong Buy
+	        	<table cellpadding="0" cellspacing="0" border="1" width="100%">
+	        		<tr>
+	        			<th>#</th>
+	        			<th>Stock</th>
+	        			<th>Price</th>
+	        			<th>Signal</th>
+	        			<th>Time</th>
+	        		</tr>
+		        	<tr ng-repeat="scr in screener_result | filter: filter | orderBy: 'loadedTime' : true">
+		        		<td>{{$index+1}}</td>
+		        		<td>{{scr.stockName}}</td>
+		        		<td>{{scr.stockPrice}}</td>
+		        		<td><span class="{{scr.fiveMins}}"></span> <span class="{{scr.fifteenMins}}"></span> <span class="{{scr.hourly}}"></span> <span class="{{scr.daily}}"></span></td>
+		        		<td>{{scr.loadedTime | date : 'MMM d, y h:mm:ss'}}</td>
+		        	</tr>
+	        	</table>
+	        </div>
         </div>
 </body>
 </html>
