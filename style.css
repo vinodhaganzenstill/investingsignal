@@ -23,9 +23,10 @@
     font-weight: bold;
 }
 .InvestingCustomization {font-family: calibri;}
+.InvestingCustomization td{font-size: 12px;}
 .InvestingCustomization h1{text-align: center;}
 .InvestingCustomization .toggle-btn{width: 30px;height: 17px;position: relative;}
-.InvestingCustomization .today_summary > div{float: left;width:40%;margin: 0 5%;}
+.InvestingCustomization .today_summary > div{float: left;width:42%;margin: 0 4%;}
 .links{text-align: center;margin-bottom: 20px;}
 .links label.active{border-bottom: 2px solid;}
 .allsignals{position: relative;}

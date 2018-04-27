@@ -28,13 +28,6 @@
 			})
 		  .controller('TodoListController', function($scope, $interval) {
 
-
-		  	$scope.devtools = /./;
-			$scope.devtools.toString = function() {
-			  this.opened = true;
-			}
-
-
 		  	textchatref.once('value', function(snapshot) {
 		  		var results = snapshot.val();
 		  		$scope.$apply(function(){
@@ -113,10 +106,6 @@
 
 		  	$scope.$watch('sell_result.length', function(n,o){
 
-		  	});
-
-		  	$scope.$watch('devtools.opened', function(n,o){
-		  		alert(n,o);
 		  	});
 
 		  	$scope.toggle = true;
