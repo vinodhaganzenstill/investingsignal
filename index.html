@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<script type="text/javascript" src="angular.js"></script>
-	<script type="text/javascript" src="firebase.js"></script>
+	<title>Stock Trend</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
-	<title>My Results</title>
+	<script type="text/javascript" src="angular.js"></script>
+	<script type="text/javascript" src="firebase.js"></script>
 	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 	<script>
 	  (adsbygoogle = window.adsbygoogle || []).push({
@@ -13,186 +17,156 @@
 	    enable_page_level_ads: true
 	  });
 	</script>
-	<script type="text/javascript">
-		var textchatref = new Firebase('https://sharemarket-52975.firebaseio.com/Buy-Sell-Signals/');
-		angular.module('todoApp', [])
-			.filter('startFrom', function() {
-			    return function(input, start) {
-			    	if(input === undefined) {
-			    		return [];
-			    	} else {
-			    		start = +start; //parse to int
-			        	return input.slice(start);
-			    	}
-			    }
-			})
-		  .controller('TodoListController', function($scope, $interval) {
-
-		  	textchatref.once('value', function(snapshot) {
-		  		var results = snapshot.val();
-		  		$scope.$apply(function(){
-			  		 angular.forEach(results, function(res,k){
-			  		 	$scope.screener_result.push(res);
-			  		 });
-			  		 $scope.filter_results();
-			  	});
-		  	});
-
-		  	textchatref.endAt().limit(1).on('child_added', function(snapshot) {
-		  			var results = snapshot.val();
-			  		$scope.$apply(function(){
-			  			$scope.screener_result.push(results);
-			  			$scope.filter_results();
-			  		});
-		  	});
-
-		  	$scope.screener_result = [];
-		  	$scope.fiter = {};
-		  	$scope.buy_result = [];
-		  	$scope.sell_result = [];
-
-		  	$scope.today = new Date(new Date().toDateString()).getTime();
-
-		  	$scope.filter_results = function(){
-		  		$scope.buy_result = angular.copy($scope.screener_result.filter(function(a){
-			  		return a.loadedTime > $scope.today && a.fiveMins === 'Strong Buy' && a.fifteenMins === 'Strong Buy' && a.hourly === 'Strong Buy';
-			  	}));
-			  	$scope.buy_result_map = $scope.buy_result.map((aa) => aa.stockName);
-			  	$scope.buy_result = $scope.buy_result.filter((v, i) => $scope.buy_result_map.indexOf(v.stockName) === i);
-			  	$scope.sell_result = angular.copy($scope.screener_result.filter(function(a){
-			  		return a.loadedTime > $scope.today && a.fiveMins === 'Strong Sell' && a.fifteenMins === 'Strong Sell' && a.hourly === 'Strong Sell'; 
-			  	}));
-			  	$scope.sell_result_map = $scope.sell_result.map((aa) => aa.stockName);
-			  	$scope.sell_result = $scope.sell_result.filter((v, i) => $scope.sell_result_map.indexOf(v.stockName) === i);
-
-			  	$scope.put_latest();
-			};
-
-			$scope.put_latest = function(){
-				angular.forEach($scope.buy_result, function(v,k){
-					var fil = $scope.screener_result.filter((a) => a.stockName === v.stockName && a.loadedTime > $scope.today).reverse();
-					v.laststockPrice = fil[0].stockPrice;
-					v.fiveMins = fil[0].fiveMins;
-					v.fifteenMins = fil[0].fifteenMins;
-					v.hourly = fil[0].hourly;
-					v.daily = fil[0].daily;
-				});
-
-				angular.forEach($scope.sell_result, function(v,k){
-					var fil = $scope.screener_result.filter((a) => a.stockName === v.stockName && a.loadedTime > $scope.today).reverse();
-					v.laststockPrice = fil[0].stockPrice;
-					v.fiveMins = fil[0].fiveMins;
-					v.fifteenMins = fil[0].fifteenMins;
-					v.hourly = fil[0].hourly;
-					v.daily = fil[0].daily;
-				});
-			};
-
-		  	$scope.change_date = function(n){
-		  		var nextDay = new Date($scope.today);
-				nextDay.setDate(nextDay.getDate()+n)
-				$scope.today = nextDay.getTime();
-				$scope.filter_results();
-		  	};
-
-		  	$scope.reset = function(){
-		  		$scope.today = new Date(new Date().toDateString()).getTime();
-		  		$scope.filter_results();
-		  	};
-
-		  	$scope.$watch('buy_result.length', function(n,o){
-
-		  	});
-
-		  	$scope.$watch('sell_result.length', function(n,o){
-
-		  	});
-
-		  	$scope.toggle = true;
-		  });
-	</script>
+	<script type="text/javascript" src="app.js"></script>
 </head>
-<body ng-app="todoApp" >
-	<div class="InvestingCustomization"  ng-app="todoApp" ng-controller="TodoListController">
-    		
-    		<h1>Future Results</h1>
-    		<div class="links">
-    			<label ng-click="toggle=true" ng-class="{active:toggle}">Summary</label>
-    			<label ng-click="toggle=false;" ng-class="{active:!toggle}">Custom Filter All Signals</label>
-    		</div>
-    		<div ng-if="toggle" class="today_summary">
-    			<p style="text-align: center;">
-    				<span class="fa fa-chevron-circle-left" ng-click="change_date(-1)"></span>
-    				<label>{{today | date: 'MMM d, y'}}</label>
-    				<span class="fa fa-chevron-circle-right" ng-click="change_date(1)"></span>
-    				<span class="fa fa-refresh" ng-click="reset();"></span></p>
-    			<div class="today_buy">
-    				<table cellpadding="0" cellspacing="0" border="1" width="100%">
-		        		<tr>
-		        			<th width="5%">#</th>
-		        			<th width="38%">Stock</th>
-		        			<th width="6%">S Pr</th>
-		        			<th width="6%">L Pr</th>
-		        			<th width="15%">Signal</th>
-		        			<th width="30%">Time</th>
-		        		</tr>
-			        	<tr ng-repeat="scr in buy_result | filter: filter | orderBy: 'loadedTime' : true">
-			        		<td>{{$index+1}}</td>
-			        		<td>{{scr.stockName}}</td>
-			        		<td>{{scr.stockPrice}}</td>
-			        		<td>{{scr.laststockPrice}}</td>
-			        		<td><span class="{{scr.fiveMins}}"></span> <span class="{{scr.fifteenMins}}"></span> <span class="{{scr.hourly}}"></span> <span class="{{scr.daily}}"></span></td>
-			        		<td>{{scr.loadedTime | date : 'MMM d, y h:mm:ss'}}</td>
-			        	</tr>
-		        	</table>	
-    			</div>
-    			<div class="today_sell">
-    				<table cellpadding="0" cellspacing="0" border="1" width="100%">
-		        		<tr>
-		        			<th width="5%">#</th>
-		        			<th width="38%">Stock</th>
-		        			<th width="6%">S Pr</th>
-		        			<th width="6%">L Pr</th>
-		        			<th width="15%">Signal</th>
-		        			<th width="30%">Time</th>
-		        		</tr>
-			        	<tr ng-repeat="scr in sell_result | filter: filter | orderBy: 'loadedTime' : true">
-			        		<td>{{$index+1}}</td>
-			        		<td>{{scr.stockName}}</td>
-			        		<td>{{scr.stockPrice}}</td>
-			        		<td>{{scr.laststockPrice}}</td>
-			        		<td><span class="{{scr.fiveMins}}"></span> <span class="{{scr.fifteenMins}}"></span> <span class="{{scr.hourly}}"></span> <span class="{{scr.daily}}"></span></td>
-			        		<td>{{scr.loadedTime | date : 'MMM d, y h:mm:ss'}}</td>
-			        	</tr>
-		        	</table>
-    			</div>
+<body ng-app="todoApp" class="stocktrend">
+	<header>
+		<div class="headerdiv container">
+			<h1>Stock Trend</h1>
+			<p>Intraday live signal based on the trend, Fly on the flow.</p>
+		</div>
+		<div class="subheaderdiv">
+			<div class="container">
+				<ul>
+					<li>Login</li>
+					<li>Register</li>
+				</ul>
+			</div>
+		</div>
+	</header>
+	<div class="InvestingCustomization container"  ng-app="todoApp" ng-controller="TodoListController">
+    		<div style="position:relative">
+	    		<span class="index_trend">
+					<label style="background:linear-gradient(to right,{{colors[current_price['Nifty 50'].fiveMins]}} 25% ,{{colors[current_price['Nifty 50'].fifteenMins]}} 50% ,{{colors[current_price['Nifty Bank'].hourly]}} 75%, {{colors[current_price['Nifty 50'].daily]}} 100%) 0 0;">
+						<span>Nifty {{current_price['Nifty 50'].stockPrice}}</span>
+					</label> | 
+					<label style="background:linear-gradient(to right,{{colors[current_price['Nifty Bank'].fiveMins]}} 25% ,{{colors[current_price['Nifty Bank'].fifteenMins]}} 50% ,{{colors[current_price['Nifty Bank'].hourly]}} 75%, {{colors[current_price['Nifty Bank'].daily]}} 100%) 0 0;">
+						<span>Nifty Bank {{current_price['Nifty Bank'].stockPrice}}</span>
+					</label>
+				</span>
+	    		<ul class="nav nav-tabs">
+				  <li ng-click="tab=2;" ng-class="{active: tab === 2}"><a href="#">Signals</a></li>
+				  <li ng-click="tab=1;" ng-class="{active: tab === 1}"><a href="#">Summary</a></li>
+				  <li ng-click="tab=3;" ng-class="{active: tab === 3}"><a href="#">History</a></li>
+				</ul>
+			</div>
+			<div ng-if="tab == 1" class="summary">
+				<div class="row">
+					<div class="col-md-6 col-sm-12" ng-repeat="(key,val) in summary_label">
+						<table cellpadding="0" cellspacing="0" border="1" width="100%">
+			        		<thead>
+			        			<tr>
+			        				<td colspan="6">{{val}}</td>
+			        			</tr>
+			        		</thead>
+			        		<tr>
+			        			<th width="5%">#</th>
+			        			<th width="32%">Stock</th>
+			        			<th width="10%">Change</th>
+			        			<th width="10%">Price</th>
+			        		</tr>
+			        		<tr ng-repeat="res in summary[key]">
+			        			<td>{{$index+1}}</td>
+			        			<td>{{res.name}}</td>
+			        			<td>{{res.change}}</td>
+			        			<td>{{res.price}}</td>
+			        		</tr>
+			        	</table>
+			        </div>
+				</div>
+			</div>
+    		<div ng-if="tab == 2" class="today_signal ">
+    			<p class="change_date">
+    				<span ng-show="initial === current_result" class="fa fa-chevron-circle-left disabled"></span>
+    				<span ng-hide="initial === current_result" class="fa fa-chevron-circle-left cp" ng-click="change_date(-1)"></span>
+    				<label>{{current_result | date: 'MMM d, y'}}</label>
+    				<span ng-show="today === current_result" class="fa fa-chevron-circle-right disabled"></span>
+    				<span ng-hide="today === current_result" class="fa fa-chevron-circle-right cp" ng-click="change_date(1)"></span>
+    				<button ng-disabled="today === current_result" class="btn btn-primary" ng-click="reset();">Today</button>
+    				<a class="performance_download cp" download="Performance-Refort.xlsx" href="Signals.xlsx">Performance Refort <span class="fa fa-download"></span></a>
+    			</p>
+    			<div class="row">
+	    			<div class="today_buy col-md-6 col-sm-12">
+	    				<table cellpadding="0" cellspacing="0" border="1" width="100%">
+			        		<thead>
+			        			<tr>
+			        				<td colspan="6">Strong Buy Trend Stocks</td>
+			        			</tr>
+			        		</thead>
+			        		<tr>
+			        			<th width="5%">#</th>
+			        			<th width="32%">Stock</th>
+			        			<th width="10%">S Pr</th>
+			        			<th width="10%">C Pr</th>
+			        			<th width="15%">Signal</th>
+			        			<th width="28%">Time</th>
+			        		</tr>
+				        	<tr ng-repeat="scr in buy_result | filter: filter | orderBy: 'loadedTime' : true">
+				        		<td>{{$index+1}}</td>
+				        		<td>{{scr.stockName}}</td>
+				        		<td>{{scr.stockPrice}}</td>
+				        		<td>{{current_price[scr.stockName].stockPrice}}</td>
+				        		<td><span class="{{current_price[scr.stockName].fiveMins}}"></span> <span class="{{current_price[scr.stockName].fifteenMins}}"></span> <span class="{{current_price[scr.stockName].hourly}}"></span> <span class="{{current_price[scr.stockName].daily}}"></span></td>
+				        		<td>{{scr.loadedTime | date : 'MMM d, y h:mm:ss'}}</td>
+				        	</tr>
+			        	</table>	
+	    			</div>
+	    			<div class="today_sell col-md-6 col-sm-12">
+	    				<table cellpadding="0" cellspacing="0" border="1" width="100%">
+	    					<thead>
+			        			<tr>
+			        				<td colspan="6">Strong Buy Trend Stocks</td>
+			        			</tr>
+			        		</thead>
+			        		<tr>
+			        			<th width="5%">#</th>
+			        			<th width="32%">Stock</th>
+			        			<th width="10%">S Pr</th>
+			        			<th width="10%">C Pr</th>
+			        			<th width="15%">Signal</th>
+			        			<th width="28%">Time</th>
+			        		</tr>
+				        	<tr ng-repeat="scr in sell_result | filter: filter | orderBy: 'loadedTime' : true">
+				        		<td>{{$index+1}}</td>
+				        		<td>{{scr.stockName}}</td>
+				        		<td>{{scr.stockPrice}}</td>
+				        		<td>{{current_price[scr.stockName].stockPrice}}</td>
+				        		<td><span class="{{current_price[scr.stockName].fiveMins}}"></span> <span class="{{current_price[scr.stockName].fifteenMins}}"></span> <span class="{{current_price[scr.stockName].hourly}}"></span> <span class="{{current_price[scr.stockName].daily}}"></span></td>
+				        		<td>{{scr.loadedTime | date : 'MMM d, y h:mm:ss'}}</td>
+				        	</tr>
+			        	</table>
+	    			</div>
+	    		</div>
     		</div>
 
-    		<div ng-if="!toggle" class="allsignals">
-	    		<input ng-model="filter.stockName" class="search">
+    		<div ng-if="tab == 3" class="allsignals">
+	    		<div class="search">
+		    		<input ng-model="filter.stockName" >
+		    		<span class="fa fa-search"></span>
+		    	</div>
 	    		<br>
-	    		5Mins Candle 
+	    		<label>5Mins Candle </label>
 	    		<input type="radio" name="fiveMins" ng-model="filter.fiveMins" value=""> Reset
 	    		<input type="radio" name="fiveMins" ng-model="filter.fiveMins" value="Sell"> Sell
 	    		<input type="radio" name="fiveMins" ng-model="filter.fiveMins" value="Strong Sell"> Strong Sell
 	    		<input type="radio" name="fiveMins" ng-model="filter.fiveMins" value="Buy">Buy
 	    		<input type="radio" name="fiveMins" ng-model="filter.fiveMins" value="Strong Buy">Strong Buy
 	    		<br>
-	    		15Mins Candle 
+	    		<label>15Mins Candle </label>
 	    		<input type="radio" name="fifteenMins" ng-model="filter.fifteenMins" value=""> Reset
 	    		<input type="radio" name="fifteenMins" ng-model="filter.fifteenMins" value="Sell"> Sell
 	    		<input type="radio" name="fifteenMins" ng-model="filter.fifteenMins" value="Strong Sell"> Strong Sell
 	    		<input type="radio" name="fifteenMins" ng-model="filter.fifteenMins" value="Buy">Buy
 	    		<input type="radio" name="fifteenMins" ng-model="filter.fifteenMins" value="Strong Buy">Strong Buy
 	    		<br>
-	    		1Hour Candle 
+	    		<label>1Hour Candle </label>
 	    		<input type="radio" name="hourly" ng-model="filter.hourly" value=""> Reset
 	    		<input type="radio" name="hourly" ng-model="filter.hourly" value="Sell"> Sell
 	    		<input type="radio" name="hourly" ng-model="filter.hourly" value="Strong Sell"> Strong Sell
 	    		<input type="radio" name="hourly" ng-model="filter.hourly" value="Buy">Buy
 	    		<input type="radio" name="hourly" ng-model="filter.hourly" value="Strong Buy">Strong Buy
 	    		<br>
-	    		Day Candle 
+	    		<label>Day Candle </label>
 	    		<input type="radio" name="daily" ng-model="filter.daily" value=""> Reset
 	    		<input type="radio" name="daily" ng-model="filter.daily" value="Sell"> Sell
 	    		<input type="radio" name="daily" ng-model="filter.daily" value="Strong Sell"> Strong Sell

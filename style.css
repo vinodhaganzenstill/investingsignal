@@ -1,3 +1,8 @@
+*{margin:0;font-family: calibri;}
+p,h1,ul{margin:0;}
+.InvestingCustomization{
+  margin-top: 20px;
+}
 .InvestingCustomization table td span{
   display: inline-block;width: 10px;height:10px;border-radius: 50%;
 }
@@ -22,11 +27,54 @@
 .InvestingCustomization table th {
     font-weight: bold;
 }
-.InvestingCustomization {font-family: calibri;}
-.InvestingCustomization td{font-size: 12px;}
-.InvestingCustomization h1{text-align: center;}
+.cp{cursor: pointer;}
+.disabled{
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+.InvestingCustomization td{font-size: 14px;}
 .InvestingCustomization .toggle-btn{width: 30px;height: 17px;position: relative;}
-.InvestingCustomization .today_summary > div{float: left;width:42%;margin: 0 4%;}
+.change_date{font-size: 20px;margin:10px 0;}
+.col-md-6, .col-sm-12{margin-bottom: 20px;}
+.summary{margin-top: 20px;}
+header{background: #1565C0;}
+header div{padding: 10px;color: #fff;}
+header div.subheaderdiv{background: #2A8EFF;text-align: right;padding: 5px;}
+header div.subheaderdiv .container{padding:0;}
+header div.subheaderdiv ul, header div.subheaderdiv ul li{
+    list-style: none;
+    display: inline-block;
+    padding: 0 5px;
+}
+.performance_download{float: right;}
+thead{
+    background: #2A8EFF;
+    color: #fff;
+    font-size: 18px;
+    text-align: center;
+}
+.index_trend {
+    position: absolute;
+    right: 0;
+    font-size: 20px;
+    top: 10px;
+}
+
+.index_trend label {
+  background-size:100% 100%;
+  display:inline-block;
+  padding:0;
+}
+.index_trend span {
+  font-weight:bold;
+  font-family:monospace;
+  box-shadow:inset 0 0 0 1000px white;
+  mix-blend-mode:screen;
+  text-shadow:0 0 2px white;
+  display: block;
+}
+
+.allsignals label{display: inline-block;width: 100px;font-weight: bold;}
 .links{text-align: center;margin-bottom: 20px;}
 .links label.active{border-bottom: 2px solid;}
 .allsignals{position: relative;}
