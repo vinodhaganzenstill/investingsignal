@@ -78,7 +78,8 @@ thead{
 .links{text-align: center;margin-bottom: 20px;}
 .links label.active{border-bottom: 2px solid;}
 .allsignals{position: relative;}
-.allsignals .search{position: absolute;right: 10px;top: 70px;}
+.allsignals .search{position: absolute;right: 10px;top: 105px;}
+.allsignals table{margin-top:20px;}
 /*.earAdv{display: none !important;}
 #rightColumn{width: 600px !important;}
 .wrapper{width: 100% !important;}*/
@@ -129,7 +130,7 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
-.filter{margin-top: 20px;}
+.filter{margin-top: 10px;}
 
 /* The container */
 .filter label {
