@@ -144,34 +144,31 @@
 		    		<input ng-model="filter.stockName" >
 		    		<span class="fa fa-search"></span>
 		    	</div>
-	    		<br>
-	    		<label>5Mins Candle </label>
-	    		<input type="radio" name="fiveMins" ng-model="filter.fiveMins" value=""> Reset
-	    		<input type="radio" name="fiveMins" ng-model="filter.fiveMins" value="Sell"> Sell
-	    		<input type="radio" name="fiveMins" ng-model="filter.fiveMins" value="Strong Sell"> Strong Sell
-	    		<input type="radio" name="fiveMins" ng-model="filter.fiveMins" value="Buy">Buy
-	    		<input type="radio" name="fiveMins" ng-model="filter.fiveMins" value="Strong Buy">Strong Buy
-	    		<br>
-	    		<label>15Mins Candle </label>
-	    		<input type="radio" name="fifteenMins" ng-model="filter.fifteenMins" value=""> Reset
-	    		<input type="radio" name="fifteenMins" ng-model="filter.fifteenMins" value="Sell"> Sell
-	    		<input type="radio" name="fifteenMins" ng-model="filter.fifteenMins" value="Strong Sell"> Strong Sell
-	    		<input type="radio" name="fifteenMins" ng-model="filter.fifteenMins" value="Buy">Buy
-	    		<input type="radio" name="fifteenMins" ng-model="filter.fifteenMins" value="Strong Buy">Strong Buy
-	    		<br>
-	    		<label>1Hour Candle </label>
-	    		<input type="radio" name="hourly" ng-model="filter.hourly" value=""> Reset
-	    		<input type="radio" name="hourly" ng-model="filter.hourly" value="Sell"> Sell
-	    		<input type="radio" name="hourly" ng-model="filter.hourly" value="Strong Sell"> Strong Sell
-	    		<input type="radio" name="hourly" ng-model="filter.hourly" value="Buy">Buy
-	    		<input type="radio" name="hourly" ng-model="filter.hourly" value="Strong Buy">Strong Buy
-	    		<br>
-	    		<label>Day Candle </label>
-	    		<input type="radio" name="daily" ng-model="filter.daily" value=""> Reset
-	    		<input type="radio" name="daily" ng-model="filter.daily" value="Sell"> Sell
-	    		<input type="radio" name="daily" ng-model="filter.daily" value="Strong Sell"> Strong Sell
-	    		<input type="radio" name="daily" ng-model="filter.daily" value="Buy">Buy
-	    		<input type="radio" name="daily" ng-model="filter.daily" value="Strong Buy">Strong Buy
+
+		    	<div class="filter" ng-repeat="(key, value) in candle">
+		    		<span>{{value}}</span>
+		    		<label>Reset
+					  <input type="radio" name="{{key}}" ng-model="$parent.filter[key]" value="">
+					  <span class="checkmark"></span>
+					</label>
+					<label>Sell
+					  <input type="radio" name="{{key}}" ng-model="$parent.filter[key]" value="Sell">
+					  <span class="checkmark"></span>
+					</label>
+					<label>Strong Sell
+					  <input type="radio" name="{{key}}" ng-model="$parent.filter[key]" value="Strong Sell">
+					  <span class="checkmark"></span>
+					</label>
+					<label>Buy
+					  <input type="radio" name="{{key}}" ng-model="$parent.filter[key]" value="Buy">
+					  <span class="checkmark"></span>
+					</label>
+					<label>Strong Buy
+					  <input type="radio" name="{{key}}" ng-model="$parent.filter[key]" value="Strong Buy">
+					  <span class="checkmark"></span>
+					</label>
+		    	</div>
+
 	        	<table cellpadding="0" cellspacing="0" border="1" width="100%">
 	        		<tr>
 	        			<th>#</th>

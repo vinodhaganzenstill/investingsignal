@@ -140,5 +140,13 @@ angular.module('todoApp', [])
   		'Strong Sell': 'red',
   		Buy: 'lightgreen',
   		'Strong Buy': 'green'
+  	};
+
+
+  	$scope.candle = {
+  		fiveMins: '5 Minutes Candle',
+  		fifteenMins: '15 Minutes Candle',
+  		hourly: 'Hourly',
+  		daily: 'Daily'
   	}
   });

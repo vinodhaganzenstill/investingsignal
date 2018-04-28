@@ -74,7 +74,7 @@ thead{
   display: block;
 }
 
-.allsignals label{display: inline-block;width: 100px;font-weight: bold;}
+.allsignals .filter > span{display: inline-block;width: 150px;font-weight: bold;}
 .links{text-align: center;margin-bottom: 20px;}
 .links label.active{border-bottom: 2px solid;}
 .allsignals{position: relative;}
@@ -127,4 +127,69 @@ input:checked + .slider:before {
 
 .slider.round:before {
   border-radius: 50%;
+}
+
+.filter{margin-top: 20px;}
+
+/* The container */
+.filter label {
+    display: inline-block;
+    position: relative;
+    padding-left: 25px;
+    margin-left: 15px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.filter label input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom radio button */
+.filter label .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #eee;
+    border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.filter label:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.filter label input:checked ~ .checkmark {
+    background-color: #2196F3;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.filter label .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.filter label input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.filter label .checkmark:after {
+  top: 6px;
+  left: 6px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: white;
 }
