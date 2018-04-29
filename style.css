@@ -216,3 +216,10 @@ input:checked + .slider:before {
   .filter label .checkmark.buy{background-color: lightgreen;}
   .filter label .checkmark.strongbuy{background-color: green;}
 }
+@media (max-width:359px){.allsignals table{margin-left:-13px;} .filter label .checkmark{top:-7px;}.allsignals .filter > span{width: 70px;}}
+@media (max-width:767px){.allsignals .search {
+    position: relative;
+    right: 0;
+    top: 10px;
+    text-align: right;
+}}

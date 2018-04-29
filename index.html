@@ -48,6 +48,7 @@
 				  <li ng-click="tab=2;" ng-class="{active: tab === 2}"><a href="#">Signals</a></li>
 				  <li ng-click="tab=1;" ng-class="{active: tab === 1}"><a href="#">Summary</a></li>
 				  <li ng-click="tab=3;" ng-class="{active: tab === 3}"><a href="#">History</a></li>
+				  <li ng-click="tab=3;" ng-class="{active: tab === 4}"><a href="#">Virtual Training</a></li>
 				</ul>
 			</div>
 			<div ng-if="tab == 1" class="summary">
@@ -141,7 +142,6 @@
 	    			</div>
 	    		</div>
     		</div>
-
     		<div ng-if="tab == 3" class="allsignals">
 	    		<div class="search">
 		    		<input ng-model="filter.stockName" >
@@ -189,6 +189,12 @@
 		        	</tr>
 	        	</table>
 	        </div>
+	        <div ng-if="tab == 4" class="virtual_training">
+    			<div class="row">
+	    			<div class="col-lg-3 col-md-3 col-sm-3 ">
+	    			</div>
+    			</div>
+    		</div>
         </div>
 </body>
 </html>
