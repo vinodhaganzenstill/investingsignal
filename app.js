@@ -144,8 +144,8 @@ angular.module('todoApp', [])
 
 
   	$scope.candle = {
-  		fiveMins: '5 Minutes Candle',
-  		fifteenMins: '15 Minutes Candle',
+  		fiveMins: '5 Minutes',
+  		fifteenMins: '15 Minutes',
   		hourly: 'Hourly',
   		daily: 'Daily'
   	}

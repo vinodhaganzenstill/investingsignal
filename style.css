@@ -194,3 +194,25 @@ input:checked + .slider:before {
   border-radius: 50%;
   background: white;
 }
+
+.mobile{display: none;}
+
+@media only screen and (max-width: 768px) {
+  .desktop{display: none;}
+  .mobile{display: initial;}
+
+
+
+  .index_trend {
+      position: relative;
+      font-size: 15px;
+      top: 0;
+      left: 0;
+  }
+  .allsignals .filter > span{width: 80px;}
+  .filter label .checkmark.neutral{background-color: gray;}
+  .filter label .checkmark.sell{background-color: lightpink;}
+  .filter label .checkmark.strongsell{background-color: red;}
+  .filter label .checkmark.buy{background-color: lightgreen;}
+  .filter label .checkmark.strongbuy{background-color: green;}
+}

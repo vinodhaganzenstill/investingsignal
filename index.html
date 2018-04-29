@@ -83,7 +83,10 @@
     				<span ng-show="today === current_result" class="fa fa-chevron-circle-right disabled"></span>
     				<span ng-hide="today === current_result" class="fa fa-chevron-circle-right cp" ng-click="change_date(1)"></span>
     				<button ng-disabled="today === current_result" class="btn btn-primary" ng-click="reset();">Today</button>
-    				<a class="performance_download cp" download="Performance-Refort.xlsx" href="Signals.xlsx">Performance Refort <span class="fa fa-download"></span></a>
+    				<a class="performance_download cp" download="Performance-Refort.xlsx" href="Signals.xlsx">
+    					<span class="desktop">Performance Refort </span>
+    					<span class="fa fa-download"></span>
+    				</a>
     			</p>
     			<div class="row">
 	    			<div class="today_buy col-md-6 col-sm-12">
@@ -146,26 +149,26 @@
 		    	</div>
 
 		    	<div class="filter" ng-repeat="(key, value) in candle">
-		    		<span>{{value}}</span>
-		    		<label>Reset
+		    		<span>{{value}} <span class="desktop">Candle</span></span>
+		    		<label><span class="desktop">Reset</span>
 					  <input type="radio" name="{{key}}" ng-model="$parent.filter[key]" value="">
-					  <span class="checkmark"></span>
+					  <span class="checkmark neutral"></span>
 					</label>
-					<label>Sell
+					<label><span class="desktop">Sell</span>
 					  <input type="radio" name="{{key}}" ng-model="$parent.filter[key]" value="Sell">
-					  <span class="checkmark"></span>
+					  <span class="checkmark sell"></span>
 					</label>
-					<label>Strong Sell
+					<label><span class="desktop">Strong Sell</span>
 					  <input type="radio" name="{{key}}" ng-model="$parent.filter[key]" value="Strong Sell">
-					  <span class="checkmark"></span>
+					  <span class="checkmark strongsell"></span>
 					</label>
-					<label>Buy
+					<label><span class="desktop">Buy</span>
 					  <input type="radio" name="{{key}}" ng-model="$parent.filter[key]" value="Buy">
-					  <span class="checkmark"></span>
+					  <span class="checkmark buy"></span>
 					</label>
-					<label>Strong Buy
+					<label><span class="desktop">Strong Buy</span>
 					  <input type="radio" name="{{key}}" ng-model="$parent.filter[key]" value="Strong Buy">
-					  <span class="checkmark"></span>
+					  <span class="checkmark strongbuy"></span>
 					</label>
 		    	</div>
 
