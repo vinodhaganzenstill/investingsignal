@@ -1,0 +1,64 @@
+<p class="change_date">
+	<span ng-show="initial === current_result" class="fa fa-chevron-circle-left disabled"></span>
+	<span ng-hide="initial === current_result" class="fa fa-chevron-circle-left cp" ng-click="change_date(-1)"></span>
+	<label>{{current_result | date: 'MMM d, y'}}</label>
+	<span ng-show="today === current_result" class="fa fa-chevron-circle-right disabled"></span>
+	<span ng-hide="today === current_result" class="fa fa-chevron-circle-right cp" ng-click="change_date(1)"></span>
+	<button ng-disabled="today === current_result" class="btn btn-primary" ng-click="reset();">Today</button>
+	<a class="performance_download cp" download="Performance-Refort.xlsx" href="Signals.xlsx">
+		<span class="desktop">Performance Refort </span>
+		<span class="fa fa-download"></span>
+	</a>
+</p>
+<div class="row">
+	<div class="today_buy col-md-6 col-sm-12">
+		<table cellpadding="0" cellspacing="0" border="1" width="100%">
+    		<thead>
+    			<tr>
+    				<td colspan="6">Strong Buy Trend Stocks</td>
+    			</tr>
+    		</thead>
+    		<tr>
+    			<th width="5%">#</th>
+    			<th width="32%">Stock</th>
+    			<th width="10%">S Pr</th>
+    			<th width="10%">C Pr</th>
+    			<th width="15%">Signal</th>
+    			<th width="28%">Time</th>
+    		</tr>
+        	<tr ng-repeat="scr in buy_result | filter: filter | orderBy: 'loadedTime' : true">
+        		<td>{{$index+1}}</td>
+        		<td>{{scr.stockName}}</td>
+        		<td>{{scr.stockPrice}}</td>
+        		<td>{{current_price[scr.stockName].stockPrice}}</td>
+        		<td><span class="{{current_price[scr.stockName].fiveMins}}"></span> <span class="{{current_price[scr.stockName].fifteenMins}}"></span> <span class="{{current_price[scr.stockName].hourly}}"></span> <span class="{{current_price[scr.stockName].daily}}"></span></td>
+        		<td>{{scr.loadedTime | date : 'MMM d, y h:mm:ss'}}</td>
+        	</tr>
+    	</table>	
+	</div>
+	<div class="today_sell col-md-6 col-sm-12">
+		<table cellpadding="0" cellspacing="0" border="1" width="100%">
+			<thead>
+    			<tr>
+    				<td colspan="6">Strong Buy Trend Stocks</td>
+    			</tr>
+    		</thead>
+    		<tr>
+    			<th width="5%">#</th>
+    			<th width="32%">Stock</th>
+    			<th width="10%">S Pr</th>
+    			<th width="10%">C Pr</th>
+    			<th width="15%">Signal</th>
+    			<th width="28%">Time</th>
+    		</tr>
+        	<tr ng-repeat="scr in sell_result | filter: filter | orderBy: 'loadedTime' : true">
+        		<td>{{$index+1}}</td>
+        		<td>{{scr.stockName}}</td>
+        		<td>{{scr.stockPrice}}</td>
+        		<td>{{current_price[scr.stockName].stockPrice}}</td>
+        		<td><span class="{{current_price[scr.stockName].fiveMins}}"></span> <span class="{{current_price[scr.stockName].fifteenMins}}"></span> <span class="{{current_price[scr.stockName].hourly}}"></span> <span class="{{current_price[scr.stockName].daily}}"></span></td>
+        		<td>{{scr.loadedTime | date : 'MMM d, y h:mm:ss'}}</td>
+        	</tr>
+    	</table>
+	</div>
+</div>

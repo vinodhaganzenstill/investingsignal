@@ -1,0 +1,23 @@
+<div class="row">
+	<div class="col-md-6 col-sm-12" ng-repeat="(key,val) in summary_label">
+		<table cellpadding="0" cellspacing="0" border="1" width="100%">
+    		<thead>
+    			<tr>
+    				<td colspan="6">{{val}}</td>
+    			</tr>
+    		</thead>
+    		<tr>
+    			<th width="5%">#</th>
+    			<th width="32%">Stock</th>
+    			<th width="10%">Change</th>
+    			<th width="10%">Price</th>
+    		</tr>
+    		<tr ng-repeat="res in summary[key]">
+    			<td>{{$index+1}}</td>
+    			<td>{{res.name}}</td>
+    			<td>{{res.change}}</td>
+    			<td>{{res.price}}</td>
+    		</tr>
+    	</table>
+    </div>
+</div>

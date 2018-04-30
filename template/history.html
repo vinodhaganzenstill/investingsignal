@@ -1,0 +1,45 @@
+ <div class="search">
+	<input ng-model="filter.stockName" >
+	<span class="fa fa-search"></span>
+</div>
+
+<div class="filter" ng-repeat="(key, value) in candle">
+	<span>{{value}} <span class="desktop">Candle</span></span>
+	<label><span class="desktop">Reset</span>
+	  <input type="radio" name="{{key}}" ng-model="$parent.filter[key]" value="">
+	  <span class="checkmark neutral"></span>
+	</label>
+	<label><span class="desktop">Sell</span>
+	  <input type="radio" name="{{key}}" ng-model="$parent.filter[key]" value="Sell">
+	  <span class="checkmark sell"></span>
+	</label>
+	<label><span class="desktop">Strong Sell</span>
+	  <input type="radio" name="{{key}}" ng-model="$parent.filter[key]" value="Strong Sell">
+	  <span class="checkmark strongsell"></span>
+	</label>
+	<label><span class="desktop">Buy</span>
+	  <input type="radio" name="{{key}}" ng-model="$parent.filter[key]" value="Buy">
+	  <span class="checkmark buy"></span>
+	</label>
+	<label><span class="desktop">Strong Buy</span>
+	  <input type="radio" name="{{key}}" ng-model="$parent.filter[key]" value="Strong Buy">
+	  <span class="checkmark strongbuy"></span>
+	</label>
+</div>
+
+<table cellpadding="0" cellspacing="0" border="1" width="100%">
+	<tr>
+		<th>#</th>
+		<th>Stock</th>
+		<th>Price</th>
+		<th>Signal</th>
+		<th>Time</th>
+	</tr>
+	<tr ng-repeat="scr in screener_result | filter: filter | orderBy: 'loadedTime' : true">
+		<td>{{$index+1}}</td>
+		<td>{{scr.stockName}}</td>
+		<td>{{scr.stockPrice}}</td>
+		<td><span class="{{scr.fiveMins}}"></span> <span class="{{scr.fifteenMins}}"></span> <span class="{{scr.hourly}}"></span> <span class="{{scr.daily}}"></span></td>
+		<td>{{scr.loadedTime | date : 'MMM d, y h:mm:ss'}}</td>
+	</tr>
+</table>   		

@@ -6,7 +6,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="css/chosen.css">
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
 	<script type="text/javascript" src="angular.js"></script>
 	<script type="text/javascript" src="firebase.js"></script>
@@ -17,7 +18,6 @@
 	    enable_page_level_ads: true
 	  });
 	</script>
-	<script type="text/javascript" src="app.js"></script>
 </head>
 <body ng-app="todoApp" class="stocktrend">
 	<header>
@@ -35,201 +35,35 @@
 		</div>
 	</header>
 	<div class="InvestingCustomization container"  ng-app="todoApp" ng-controller="TodoListController">
-    		<div style="position:relative">
-	    		<span class="index_trend">
-					<label style="background:linear-gradient(to right,{{colors[current_price['Nifty 50'].fiveMins]}} 25% ,{{colors[current_price['Nifty 50'].fifteenMins]}} 50% ,{{colors[current_price['Nifty Bank'].hourly]}} 75%, {{colors[current_price['Nifty 50'].daily]}} 100%) 0 0;">
-						<span>Nifty {{current_price['Nifty 50'].stockPrice}}</span>
-					</label> | 
-					<label style="background:linear-gradient(to right,{{colors[current_price['Nifty Bank'].fiveMins]}} 25% ,{{colors[current_price['Nifty Bank'].fifteenMins]}} 50% ,{{colors[current_price['Nifty Bank'].hourly]}} 75%, {{colors[current_price['Nifty Bank'].daily]}} 100%) 0 0;">
-						<span>Nifty Bank {{current_price['Nifty Bank'].stockPrice}}</span>
-					</label>
-				</span>
-	    		<ul class="nav nav-tabs">
-				  <li ng-click="tab=2;" ng-class="{active: tab === 2}"><a href="#">Signals</a></li>
-				  <li ng-click="tab=1;" ng-class="{active: tab === 1}"><a href="#">Summary</a></li>
-				  <li ng-click="tab=3;" ng-class="{active: tab === 3}"><a href="#">History</a></li>
-				  <li ng-click="tab=3;" ng-class="{active: tab === 4}"><a href="#">Virtual Training</a></li>
-				</ul>
-			</div>
-			<div ng-if="tab == 1" class="summary">
-				<div class="row">
-					<div class="col-md-6 col-sm-12" ng-repeat="(key,val) in summary_label">
-						<table cellpadding="0" cellspacing="0" border="1" width="100%">
-			        		<thead>
-			        			<tr>
-			        				<td colspan="6">{{val}}</td>
-			        			</tr>
-			        		</thead>
-			        		<tr>
-			        			<th width="5%">#</th>
-			        			<th width="32%">Stock</th>
-			        			<th width="10%">Change</th>
-			        			<th width="10%">Price</th>
-			        		</tr>
-			        		<tr ng-repeat="res in summary[key]">
-			        			<td>{{$index+1}}</td>
-			        			<td>{{res.name}}</td>
-			        			<td>{{res.change}}</td>
-			        			<td>{{res.price}}</td>
-			        		</tr>
-			        	</table>
-			        </div>
-				</div>
-			</div>
-    		<div ng-if="tab == 2" class="today_signal ">
-    			<p class="change_date">
-    				<span ng-show="initial === current_result" class="fa fa-chevron-circle-left disabled"></span>
-    				<span ng-hide="initial === current_result" class="fa fa-chevron-circle-left cp" ng-click="change_date(-1)"></span>
-    				<label>{{current_result | date: 'MMM d, y'}}</label>
-    				<span ng-show="today === current_result" class="fa fa-chevron-circle-right disabled"></span>
-    				<span ng-hide="today === current_result" class="fa fa-chevron-circle-right cp" ng-click="change_date(1)"></span>
-    				<button ng-disabled="today === current_result" class="btn btn-primary" ng-click="reset();">Today</button>
-    				<a class="performance_download cp" download="Performance-Refort.xlsx" href="Signals.xlsx">
-    					<span class="desktop">Performance Refort </span>
-    					<span class="fa fa-download"></span>
-    				</a>
-    			</p>
-    			<div class="row">
-	    			<div class="today_buy col-md-6 col-sm-12">
-	    				<table cellpadding="0" cellspacing="0" border="1" width="100%">
-			        		<thead>
-			        			<tr>
-			        				<td colspan="6">Strong Buy Trend Stocks</td>
-			        			</tr>
-			        		</thead>
-			        		<tr>
-			        			<th width="5%">#</th>
-			        			<th width="32%">Stock</th>
-			        			<th width="10%">S Pr</th>
-			        			<th width="10%">C Pr</th>
-			        			<th width="15%">Signal</th>
-			        			<th width="28%">Time</th>
-			        		</tr>
-				        	<tr ng-repeat="scr in buy_result | filter: filter | orderBy: 'loadedTime' : true">
-				        		<td>{{$index+1}}</td>
-				        		<td>{{scr.stockName}}</td>
-				        		<td>{{scr.stockPrice}}</td>
-				        		<td>{{current_price[scr.stockName].stockPrice}}</td>
-				        		<td><span class="{{current_price[scr.stockName].fiveMins}}"></span> <span class="{{current_price[scr.stockName].fifteenMins}}"></span> <span class="{{current_price[scr.stockName].hourly}}"></span> <span class="{{current_price[scr.stockName].daily}}"></span></td>
-				        		<td>{{scr.loadedTime | date : 'MMM d, y h:mm:ss'}}</td>
-				        	</tr>
-			        	</table>	
-	    			</div>
-	    			<div class="today_sell col-md-6 col-sm-12">
-	    				<table cellpadding="0" cellspacing="0" border="1" width="100%">
-	    					<thead>
-			        			<tr>
-			        				<td colspan="6">Strong Buy Trend Stocks</td>
-			        			</tr>
-			        		</thead>
-			        		<tr>
-			        			<th width="5%">#</th>
-			        			<th width="32%">Stock</th>
-			        			<th width="10%">S Pr</th>
-			        			<th width="10%">C Pr</th>
-			        			<th width="15%">Signal</th>
-			        			<th width="28%">Time</th>
-			        		</tr>
-				        	<tr ng-repeat="scr in sell_result | filter: filter | orderBy: 'loadedTime' : true">
-				        		<td>{{$index+1}}</td>
-				        		<td>{{scr.stockName}}</td>
-				        		<td>{{scr.stockPrice}}</td>
-				        		<td>{{current_price[scr.stockName].stockPrice}}</td>
-				        		<td><span class="{{current_price[scr.stockName].fiveMins}}"></span> <span class="{{current_price[scr.stockName].fifteenMins}}"></span> <span class="{{current_price[scr.stockName].hourly}}"></span> <span class="{{current_price[scr.stockName].daily}}"></span></td>
-				        		<td>{{scr.loadedTime | date : 'MMM d, y h:mm:ss'}}</td>
-				        	</tr>
-			        	</table>
-	    			</div>
-	    		</div>
-    		</div>
-    		<div ng-if="tab == 3" class="allsignals">
-	    		<div class="search">
-		    		<input ng-model="filter.stockName" >
-		    		<span class="fa fa-search"></span>
-		    	</div>
+		<div style="position:relative">
+    		<span class="index_trend">
+				<label style="background:linear-gradient(to right,{{colors[current_price['Nifty 50'].fiveMins]}} 25% ,{{colors[current_price['Nifty 50'].fifteenMins]}} 50% ,{{colors[current_price['Nifty Bank'].hourly]}} 75%, {{colors[current_price['Nifty 50'].daily]}} 100%) 0 0;">
+					<span>Nifty {{current_price['Nifty 50'].stockPrice}}</span>
+				</label> | 
+				<label style="background:linear-gradient(to right,{{colors[current_price['Nifty Bank'].fiveMins]}} 25% ,{{colors[current_price['Nifty Bank'].fifteenMins]}} 50% ,{{colors[current_price['Nifty Bank'].hourly]}} 75%, {{colors[current_price['Nifty Bank'].daily]}} 100%) 0 0;">
+					<span>Nifty Bank {{current_price['Nifty Bank'].stockPrice}}</span>
+				</label>
+			</span>
+    		<ul class="nav nav-tabs">
+			  <li ng-click="tab=1;" ng-class="{active: tab === 1}"><a href="#">Signals</a></li>
+			  <li ng-click="tab=2;" ng-class="{active: tab === 2}"><a href="#">Summary</a></li>
+			  <li ng-click="tab=3;" ng-class="{active: tab === 3}"><a href="#">History</a></li>
+			  <li ng-click="tab=4;" ng-class="{active: tab === 4}"><a href="#">Virtual Training</a></li>
+			</ul>
+		</div>
 
-		    	<div class="filter" ng-repeat="(key, value) in candle">
-		    		<span>{{value}} <span class="desktop">Candle</span></span>
-		    		<label><span class="desktop">Reset</span>
-					  <input type="radio" name="{{key}}" ng-model="$parent.filter[key]" value="">
-					  <span class="checkmark neutral"></span>
-					</label>
-					<label><span class="desktop">Sell</span>
-					  <input type="radio" name="{{key}}" ng-model="$parent.filter[key]" value="Sell">
-					  <span class="checkmark sell"></span>
-					</label>
-					<label><span class="desktop">Strong Sell</span>
-					  <input type="radio" name="{{key}}" ng-model="$parent.filter[key]" value="Strong Sell">
-					  <span class="checkmark strongsell"></span>
-					</label>
-					<label><span class="desktop">Buy</span>
-					  <input type="radio" name="{{key}}" ng-model="$parent.filter[key]" value="Buy">
-					  <span class="checkmark buy"></span>
-					</label>
-					<label><span class="desktop">Strong Buy</span>
-					  <input type="radio" name="{{key}}" ng-model="$parent.filter[key]" value="Strong Buy">
-					  <span class="checkmark strongbuy"></span>
-					</label>
-		    	</div>
-
-	        	<table cellpadding="0" cellspacing="0" border="1" width="100%">
-	        		<tr>
-	        			<th>#</th>
-	        			<th>Stock</th>
-	        			<th>Price</th>
-	        			<th>Signal</th>
-	        			<th>Time</th>
-	        		</tr>
-		        	<tr ng-repeat="scr in screener_result | filter: filter | orderBy: 'loadedTime' : true">
-		        		<td>{{$index+1}}</td>
-		        		<td>{{scr.stockName}}</td>
-		        		<td>{{scr.stockPrice}}</td>
-		        		<td><span class="{{scr.fiveMins}}"></span> <span class="{{scr.fifteenMins}}"></span> <span class="{{scr.hourly}}"></span> <span class="{{scr.daily}}"></span></td>
-		        		<td>{{scr.loadedTime | date : 'MMM d, y h:mm:ss'}}</td>
-		        	</tr>
-	        	</table>
-	        </div>
-	        <div ng-if="tab == 4" class="virtual_training">
-    			<div class="row">
-	    			<div class="col-lg-3 col-md-3 col-sm-3 ">
-	    			</div>
-    			</div>
-    		</div>
-    		<div class="login">
-		    		<div class="row">
-		    		  <!-- Modal -->
-					  <div class="modal fade" role="dialog" style="display:inline-block!important;">
-					    <div class="modal-dialog">
-					    
-					      <!-- Modal content-->
-					      <div class="modal-content">
-					        <div class="modal-header">
-					          <button type="button" class="close" data-dismiss="modal">&times;</button>
-					          <h4 class="modal-title">Modal Header</h4>
-					        </div>
-					        <div class="modal-body">
-					        <form action="/action_page.php">
-							    <div class="form-group">
-							      <label for="email">Email:</label>
-							      <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
-							    </div>
-							    <div class="form-group">
-							      <label for="pwd">Password:</label>
-							      <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd">
-							    </div>
-							    <div class="checkbox">
-							      <label><input type="checkbox" name="remember"> Remember me</label>
-							    </div>
-							    <button type="submit" class="btn btn-default">Submit</button>
-							  </form>
-					        </div>
-					      </div>
-					      
-					    </div>
-					  </div>
-		    		</div>
-            </div>
-        </div>
-        
+		<div class="tab_content">
+			<div ng-if="tab == 1" class="summary" ng-include src="'template/signal.html'"></div>
+			<div ng-if="tab == 2" class="today_signal" ng-include src="'template/summary.html'"></div>
+			<div ng-if="tab == 3" class="allsignals" ng-include src="'template/history.html'"></div>
+			<div ng-if="tab == 4" class="virtual_training" ng-include src="'template/training.html'"></div>
+		</div>
+		<div ng-if="login" class="login" ng-include src="'template/login.html'"></div>
+		<div ng-if="register" class="register" ng-include src="'template/register.html'"></div>
+    </div>
+    <script src="http://harvesthq.github.io/chosen/chosen.jquery.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+    <script type="text/javascript" src="controller/common.js"></script>
+    <script type="text/javascript" src="controller/training.js"></script>
 </body>
 </html>

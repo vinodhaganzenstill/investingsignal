@@ -1,0 +1,20 @@
+<div class="virtual_training" ng-controller="VirtualController">
+	<div class="row">
+		<div class="col-md-3">
+			<ul>
+				<li ng-click="training_tab=1" ng-class="{active:training_tab==1}">Place Order</li>
+				<li ng-click="training_tab=2" ng-class="{active:training_tab==2}">Open Orders</li>
+				<li ng-click="training_tab=3" ng-class="{active:training_tab==3}">Order History</li>
+				<li ng-click="training_tab=4" ng-class="{active:training_tab==4}">Report</li>
+				<li ng-click="training_tab=5" ng-class="{active:training_tab==5}">My Account</li>
+			</ul>
+		</div>
+		<div class="col-md-9 col-sm-12">
+			<div ng-if="training_tab == 1" class="place_order" ng-include src="'template/training/place_order.html'"></div>
+			<div ng-if="training_tab == 2" class="open_order" ng-include src="'template/training/open_order.html'"></div>
+			<div ng-if="training_tab == 3" class="order_history" ng-include src="'template/training/order_history.html'"></div>
+			<div ng-if="training_tab == 4" class="order_history" ng-include src="'template/training/report.html'"></div>
+			<div ng-if="training_tab == 5" class="account" ng-include src="'template/training/account.html'"></div>
+		</div>
+	</div>
+</div>

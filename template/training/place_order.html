@@ -1,0 +1,42 @@
+<div>
+	<h3>Place Order</h3>
+	<div class="row">
+		<form name="place_order">
+			<div class="col-md-12">
+				<label class="col-md-3">Stock</label>
+				<div class="col-md-3">
+					<select id="stockSelectName" ng-model="order.stock" required>
+						<option ng-repeat="stock in current_price" value="{{stock.stockName}}">{{stock.stockName}}</option>
+					</select>
+				</div>
+				<div class="col-md-4">
+					<label ng-class="{strike: order.type}">Buy</label>
+					<div class="toggle-btn">
+		        		<label class="switch">
+						  <input type="checkbox" ng-model="order.type" ng-change="togglePlugin();">
+						  <span class="slider round"></span>
+						</label>
+	        		</div>
+	        		<label ng-class="{strike: !order.type}">Sell</label>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<label class="col-md-3">Quantity</label>
+				<input class="col-md-3" required type="number" ng-model="order.quantity">
+				<label class="col-md-3">Current Price</label>
+				<label class="col-md-3"><span ng-if="order.stock">{{current_price[order.stock].stockPrice}}</span></label>
+			</div>
+			<!--<div class="col-md-12">
+				<label class="col-md-3">Type</label>
+				<label class="col-md-3">
+					<input ng-model="order.type" required type="radio" value="Market" name="type"> Market 
+					<input ng-model="order.type" required type="radio" value="Limit" name="type"> Limit
+				</label>
+				<label class="col-md-3" ng-if="order.type == 'Limit'"><input required type="text" ng-model="order.limit"></label>
+			</div>-->
+			<div class="col-md-12">
+				<button ng-disabled="place_order.$invalid" ng-click="new_order();" class="btn" ng-class="{'btn-primary': !order.type, 'btn-danger': order.type}">{{order.type ? 'Sell': 'Buy'}}</button>
+			</div>
+		</form>
+	</div>
+</div>

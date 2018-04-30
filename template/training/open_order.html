@@ -1,0 +1,25 @@
+<div>
+	<h3>Open Order</h3>
+	<div class="row">
+		<div class="col-md-12">
+			<table>
+				<tr>
+					<th>#</th>
+					<th>Stock</th>
+					<th>Qty</th>
+					<th>Avg Price</th>
+					<th>Cur Price</th>
+					<th>Profit/Loss</th>
+				</tr>
+				<tr ng-repeat="ord in myorders">
+					<td>{{$index+1}}</td>
+					<td>{{ord.stock}}</td>
+					<td>{{ord.quantity}}</td>
+					<td>{{ord.order_price}}</td>
+					<td>{{current_price[ord.stock].stockPrice}}</td>
+					<td>{{(current_price[ord.stock].stockPrice - ord.order_price) * ord.quantity}}</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
