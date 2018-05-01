@@ -1,4 +1,4 @@
-app.controller('TodoListController', function($scope, $interval) {
+app.controller('TodoListController', function($scope, $interval, Session) {
 
   	/*$("body").on("contextmenu",function(){
        return false;
@@ -67,7 +67,7 @@ app.controller('TodoListController', function($scope, $interval) {
   	$scope.sell_result = [];
 
   	$scope.today = new Date(new Date().toDateString()).getTime();
-  	$scope.initial = new Date('04-26-2018').getTime();
+  	$scope.initial = new Date('04-17-2018').getTime();
   	$scope.current_result = new Date(new Date().toDateString()).getTime();
 
   	$scope.filter_results = function(){
@@ -86,9 +86,9 @@ app.controller('TodoListController', function($scope, $interval) {
 
   	$scope.change_date = function(n){
   		var nextDay = new Date($scope.current_result);
-		nextDay.setDate(nextDay.getDate()+n)
-		$scope.current_result = nextDay.getTime();
-		$scope.filter_results();
+		  nextDay.setDate(nextDay.getDate()+n)
+		  $scope.current_result = nextDay.getTime();
+		  $scope.filter_results();
   	};
 
   	$scope.reset = function(){
@@ -113,6 +113,8 @@ app.controller('TodoListController', function($scope, $interval) {
   	}, 2000);*/
 
   	$scope.tab = 1;
+    $scope.login = false;
+    $scope.register = false;
 
   	$scope.colors = {
   		Neutral: 'gray',
@@ -128,5 +130,44 @@ app.controller('TodoListController', function($scope, $interval) {
   		fifteenMins: '15 Minutes',
   		hourly: 'Hourly',
   		daily: 'Daily'
-  	}
+  	};
+
+    $scope.user = {};
+    var user = new Firebase('https://sharemarket-52975.firebaseio.com/Users/');
+    $scope.add_user = function(){
+      $scope.user.created = new Date().getTime();
+      user.push($scope.user);
+      $scope.user = {};
+      
+      $scope.register = false;
+      $scope.login = true;
+    };
+
+
+    $scope.loggedin = function(){
+      user.once('value', function(snapshot) {
+        var results = snapshot.val();
+        angular.forEach(results, function(res,k){
+          if(res.email == $scope.user.email && res.password == $scope.user.password){
+            $scope.$apply(function(){
+              res.id = k;
+              Session.create(res, true);
+              $scope.user = {};
+              $scope.login = false;
+              $scope.logged_user = Session.user;
+              $scope.is_user_logged_in = Session.is_logged_in;
+            });
+          }
+        });
+      });
+    };
+
+    $scope.logged_user = Session.user;
+    $scope.is_user_logged_in = Session.is_logged_in;
+
+    $scope.logout = function(){
+      Session.destroy();
+      $scope.logged_user = Session.user;
+      $scope.is_user_logged_in = Session.is_logged_in;
+    };
   });

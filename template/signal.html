@@ -26,7 +26,7 @@
     			<th width="15%">Signal</th>
     			<th width="28%">Time</th>
     		</tr>
-        	<tr ng-repeat="scr in buy_result | filter: filter | orderBy: 'loadedTime' : true">
+        	<tr ng-repeat="scr in buy_result | filter: filter | orderBy: 'loadedTime' : true" ng-class="{strike:!current_price[scr.stockName]}">
         		<td>{{$index+1}}</td>
         		<td>{{scr.stockName}}</td>
         		<td>{{scr.stockPrice}}</td>
@@ -51,7 +51,7 @@
     			<th width="15%">Signal</th>
     			<th width="28%">Time</th>
     		</tr>
-        	<tr ng-repeat="scr in sell_result | filter: filter | orderBy: 'loadedTime' : true">
+        	<tr ng-repeat="scr in sell_result | filter: filter | orderBy: 'loadedTime' : true" ng-class="{strike:!current_price[scr.stockName]}">
         		<td>{{$index+1}}</td>
         		<td>{{scr.stockName}}</td>
         		<td>{{scr.stockPrice}}</td>

@@ -19,7 +19,7 @@
 	  });
 	</script>
 </head>
-<body ng-app="todoApp" class="stocktrend">
+<body ng-app="todoApp" class="stocktrend" ng-controller="TodoListController">
 	<header>
 		<div class="headerdiv container">
 			<h1>Stock Trend</h1>
@@ -27,14 +27,18 @@
 		</div>
 		<div class="subheaderdiv">
 			<div class="container">
-				<ul>
-					<li>Login</li>
-					<li>Register</li>
+				<ul ng-if="!is_user_logged_in">
+					<li ng-click="$parent.login =true;$parent.user = {};" class="cp">Login</li>
+					<li ng-click="$parent.register =true;$parent.user = {};" class="cp">Register</li>
+				</ul>
+				<ul ng-if="is_user_logged_in">
+					<li>Welcome <span class="cp">{{logged_user.name}}</span></li>
+					<li ng-click="logout();" class="cp">Logout</li>
 				</ul>
 			</div>
 		</div>
 	</header>
-	<div class="InvestingCustomization container"  ng-app="todoApp" ng-controller="TodoListController">
+	<div class="InvestingCustomization container" >
 		<div style="position:relative">
     		<span class="index_trend">
 				<label style="background:linear-gradient(to right,{{colors[current_price['Nifty 50'].fiveMins]}} 25% ,{{colors[current_price['Nifty 50'].fifteenMins]}} 50% ,{{colors[current_price['Nifty Bank'].hourly]}} 75%, {{colors[current_price['Nifty 50'].daily]}} 100%) 0 0;">
