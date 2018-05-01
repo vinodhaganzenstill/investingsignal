@@ -1,30 +1,40 @@
-<div>
+<style>
+.place-order{ background: #f1f1f1; padding:30px; }
+.place-order h3{ margin-top:0;}
+.place-order .row{ margin-top:30px; }
+.padd-left{ padding-left:0; }
+.place-order .lbl{ padding-top:5px; }
+.form-control{ height:30px; }
+.r1{ padding-top:10px; }
+</style>
+<div class="place-order">
 	<h3>Place Order</h3>
 	<div class="row">
 		<form name="place_order">
-			<div class="col-md-12">
-				<label class="col-md-3">Stock</label>
-				<div class="col-md-3">
-					<select id="stockSelectName" ng-model="order.stock" required>
+			<div class="col-md-12 r1">
+				<label class="col-md-3 padd-left lbl">Stock</label>
+				<div class="col-md-3 padd-left">
+					<select id="stockSelectName" class="form-control" ng-model="order.stock" required>
 						<option ng-repeat="stock in current_price" value="{{stock.stockName}}">{{stock.stockName}}</option>
 					</select>
 				</div>
-				<div class="col-md-4">
+				<div class="col-md-4 padd-left">
 					<label ng-class="{strike: order.type}">Buy</label>
-					<div class="toggle-btn">
-		        		<label class="switch">
+					<label class="toggle-btn">
+		        		<div class="switch">
 						  <input type="checkbox" ng-model="order.type" ng-change="togglePlugin();">
 						  <span class="slider round"></span>
-						</label>
-	        		</div>
+						</div>
+	        		</label>
 	        		<label ng-class="{strike: !order.type}">Sell</label>
 				</div>
 			</div>
-			<div class="col-md-12">
-				<label class="col-md-3">Quantity</label>
-				<input class="col-md-3" required type="number" ng-model="order.quantity">
-				<label class="col-md-3">Current Price</label>
-				<label class="col-md-3"><span ng-if="order.stock">{{current_price[order.stock].stockPrice}}</span></label>
+			<div class="col-md-12 r1">
+				<label class="col-md-3 padd-left lbl">Quantity</label>
+				<div class="col-md-3 padd-left">
+				<input class="form-control" required type="number" ng-model="order.quantity"></div>
+				<label class="col-md-3 padd-left lbl">Current Price</label>
+				<label class="col-md-3 padd-left"><span ng-if="order.stock">{{current_price[order.stock].stockPrice}}</span></label>
 			</div>
 			<!--<div class="col-md-12">
 				<label class="col-md-3">Type</label>

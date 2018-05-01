@@ -1,7 +1,15 @@
+
+<style>
+.side-menu{margin-top:30px; padding-right:0;} 
+.train-menu{ padding:0; background: #2A8EFF; }
+.train-menu li{ list-style-type: none; padding:10px 15px; border-bottom: 1px solid #ededed; color:#fff; cursor:pointer; }
+.train-menu li:hover{background:#1565C0; }
+.right-details{ margin-top:30px; padding-left:0;}
+</style>
 <div class="virtual_training" ng-controller="VirtualController">
 	<div class="row">
-		<div class="col-md-3">
-			<ul>
+		<div class="col-md-3 side-menu">
+			<ul class="train-menu">
 				<li ng-click="training_tab=1" ng-class="{active:training_tab==1}">Place Order</li>
 				<li ng-click="training_tab=2" ng-class="{active:training_tab==2}">Open Orders</li>
 				<li ng-click="training_tab=3" ng-class="{active:training_tab==3}">Order History</li>
@@ -9,7 +17,7 @@
 				<li ng-click="training_tab=5" ng-class="{active:training_tab==5}">My Account</li>
 			</ul>
 		</div>
-		<div class="col-md-9 col-sm-12">
+		<div class="col-md-9 col-sm-12 right-details">
 			<div ng-if="training_tab == 1" class="place_order" ng-include src="'template/training/place_order.html'"></div>
 			<div ng-if="training_tab == 2" class="open_order" ng-include src="'template/training/open_order.html'"></div>
 			<div ng-if="training_tab == 3" class="order_history" ng-include src="'template/training/order_history.html'"></div>
