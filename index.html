@@ -5,12 +5,11 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<link rel="stylesheet" type="text/css" href="css/chosen.css">
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
-	<script type="text/javascript" src="angular.js"></script>
-	<script type="text/javascript" src="firebase.js"></script>
+	
 	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 	<script>
 	  (adsbygoogle = window.adsbygoogle || []).push({
@@ -27,13 +26,14 @@
 		</div>
 		<div class="subheaderdiv">
 			<div class="container">
-				<ul ng-if="!is_user_logged_in">
-					<li ng-click="$parent.login =true;$parent.user = {};" class="cp">Login</li>
-					<li ng-click="$parent.register =true;$parent.user = {};" class="cp">Register</li>
-				</ul>
-				<ul ng-if="is_user_logged_in">
-					<li>Welcome <span class="cp">{{logged_user.name}}</span></li>
-					<li ng-click="logout();" class="cp">Logout</li>
+				<ul >
+					<li ng-if="!is_user_logged_in" ng-click="$parent.login =true;$parent.user = {};" class="cp">Login</li>
+					<li ng-if="!is_user_logged_in" ng-click="$parent.register =true;$parent.user = {};" class="cp">Register</li>
+
+					<li ng-if="is_user_logged_in" >Welcome <span class="cp">{{logged_user.name}}</span></li>
+					<li ng-if="is_user_logged_in" ng-click="logout();" class="cp">Logout</li>
+
+					<li class="cp" ng-click="tour();">Take Tour</li>
 				</ul>
 			</div>
 		</div>
@@ -49,25 +49,30 @@
 				</label>
 			</span>
     		<ul class="nav nav-tabs">
-			  <li ng-click="tab=1;" ng-class="{active: tab === 1}"><a href="#">Signals</a></li>
-			  <li ng-click="tab=2;" ng-class="{active: tab === 2}"><a href="#">Summary</a></li>
-			  <li ng-click="tab=3;" ng-class="{active: tab === 3}"><a href="#">History</a></li>
-			  <li ng-click="tab=4;" ng-class="{active: tab === 4}"><a href="#">Virtual Trading</a></li>
+			  <li class="today_signal_tab" ng-click="tab=1;" ng-class="{active: tab === 1}"><a href="#">Signals</a></li>
+			  <li class="summary_tab" ng-click="tab=2;" ng-class="{active: tab === 2}"><a href="#">Summary</a></li>
+			  <li class="allsignals_tab" ng-click="tab=3;" ng-class="{active: tab === 3}"><a href="#">History</a></li>
+			  <li class="virtual_training_tab" ng-click="tab=4;" ng-class="{active: tab === 4}"><a href="#">Virtual Trading</a></li>
 			</ul>
 		</div>
 
 		<div class="tab_content">
-			<div ng-if="tab == 1" class="summary" ng-include src="'template/signal.html'"></div>
-			<div ng-if="tab == 2" class="today_signal" ng-include src="'template/summary.html'"></div>
+			<div ng-if="tab == 1" class="today_signal" ng-include src="'template/signal.html'"></div>
+			<div ng-if="tab == 2" class="summary" ng-include src="'template/summary.html'"></div>
 			<div ng-if="tab == 3" class="allsignals" ng-include src="'template/history.html'"></div>
 			<div ng-if="tab == 4" class="virtual_training" ng-include src="'template/training.html'"></div>
 		</div>
 		<div ng-if="login" class="login" ng-include src="'template/login.html'"></div>
 		<div ng-if="register" class="register" ng-include src="'template/register.html'"></div>
     </div>
-    <script src="//harvesthq.github.io/chosen/chosen.jquery.js"></script>
-    <script type="text/javascript" src="app.js"></script>
-    <script type="text/javascript" src="controller/common.js"></script>
-    <script type="text/javascript" src="controller/training.js"></script>
+    <script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/angular.js"></script>
+	<script type="text/javascript" src="js/firebase.js"></script>
+    <script type="text/javascript" src="js/jquery.aSimpleTour.js"></script>
+    <script type="text/javascript" src="js/jquery.scrollTo.js"></script>
+    <script type="text/javascript" src="js/chosen.jquery.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/controller/common.js"></script>
+    <script type="text/javascript" src="js/controller/training.js"></script>
 </body>
 </html>

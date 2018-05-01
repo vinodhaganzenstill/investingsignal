@@ -156,6 +156,7 @@ app.controller('TodoListController', function($scope, $interval, Session) {
               $scope.login = false;
               $scope.logged_user = Session.user;
               $scope.is_user_logged_in = Session.is_logged_in;
+              $scope.tab = 4;
             });
           }
         });
@@ -169,5 +170,20 @@ app.controller('TodoListController', function($scope, $interval, Session) {
       Session.destroy();
       $scope.logged_user = Session.user;
       $scope.is_user_logged_in = Session.is_logged_in;
+    };
+
+    $scope.tour = function(){
+      var tour = {
+        data : [
+          { element: '.index_trend label:first', tooltip: 'Nifty current trend, it contains four gradient respective 5mins, 15mins, 1hour and daily candle trend'},
+          { element: '.nav-tabs .today_signal_tab', 'tooltip' : 'Live Buy and Sell Signals here' },
+          { element: '.nav-tabs .summary_tab', 'tooltip' : 'Today Summary live update top gainers, losers, high volume, high price movement and upper bollinger bnd cross over stocks' },
+          { element: '.nav-tabs .allsignals_tab', 'tooltip' : 'All Signals history available, we can do custom filter here' },
+          { element: '.nav-tabs .virtual_training_tab', 'tooltip' : 'Virtual Trading platform, we can buy and sell stocks in live market price with virtual money' }
+        ],
+        controlsPosition : 'TR'
+      }
+
+      $scope.tour_data = $.aSimpleTour(tour);
     };
   });

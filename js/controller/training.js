@@ -1,7 +1,13 @@
-app.controller('VirtualController', function($scope, $timeout) {
+app.controller('VirtualController', function($scope, $timeout, Session) {
 	$scope.training_tab = 1;
 	$scope.order = {};
 	$scope.myorders = [];
+
+	if(!Session.is_logged_in){
+		$scope.$parent.$parent.$parent.login = true;
+		$scope.$parent.$parent.$parent.tab = 1;
+	}
+
 
 	var orders = new Firebase('https://sharemarket-52975.firebaseio.com/Orders/');
 	orders.once('value', function(snapshot) {
