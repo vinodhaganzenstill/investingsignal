@@ -1,11 +1,6 @@
 var textchatref = new Firebase('https://sharemarket-52975.firebaseio.com/Buy-Sell-Signals/');
 var current_price = new Firebase('https://sharemarket-52975.firebaseio.com/Current-Price/');
-var summary = {};
-summary.high_volume = new Firebase('https://sharemarket-52975.firebaseio.com/Summary/High volume stocks/');
-summary.high_price_movement = new Firebase('https://sharemarket-52975.firebaseio.com/Summary/High Price Movement in last 5 minutes/');
-summary.top_losers = new Firebase('https://sharemarket-52975.firebaseio.com/Summary/Most Percentage Lose/');
-summary.top_gainers = new Firebase('https://sharemarket-52975.firebaseio.com/Summary/Most Percentage Changes of the day/');
-summary.upper_bolliger_crossover = new Firebase('https://sharemarket-52975.firebaseio.com/Summary/Upper Bollinger band crossover(15 mts)/');
+var summaryref = new Firebase('https://sharemarket-52975.firebaseio.com/Summary/');
 
 var app = angular.module('todoApp', []);
 

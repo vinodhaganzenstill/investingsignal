@@ -5,33 +5,21 @@ app.controller('TodoListController', function($scope, $interval, Session) {
     });*/
 
   	$scope.summary = {};
-    $scope.summary.high_volume = [];
-    $scope.summary.high_price_movement = [];
-    $scope.summary.top_losers = [];
-    $scope.summary.top_gainers = [];
-    $scope.summary.upper_bolliger_crossover = [];
 
-    $scope.summary_label = {
-    	top_gainers: 'Top Gainer',
-    	top_losers: 'Top Loser',
-    	high_volume: 'High Volume',
-    	high_price_movement: 'High Price Movement (Last 15mts)',
-    	upper_bolliger_crossover: 'Cross Over Upper Bollinger (Last 15mts)'
-    };
-    
-    angular.forEach(summary, function(v,k){
-    	v.on('value', function(snapshot) {
-    		$scope.summary[k] = [];
-	  		var results = snapshot.val();
-	  		$scope.$apply(function(){
-		  		 angular.forEach(results, function(res,k1){
-		  		 	if($scope.summary[k].length < 5){
-						$scope.summary[k].push(res);
-		  		 	}
-		  		 });
-		  	});
-	  	});
-    });
+    summaryref.on('value', function(snapshot) {
+         var results = snapshot.val();
+         var new_resuts = {};
+         angular.forEach(results, function(scre,k){
+          new_resuts[k] = [];
+          angular.forEach(scre, function(i2,k2){
+              new_resuts[k].push(angular.copy(i2));
+          });
+         });
+         $scope.$apply(function(){
+          $scope.summary = angular.copy(new_resuts);
+         });
+      });
+
 
   	current_price.on('value', function(snapshot) {
   		var results = snapshot.val();
@@ -70,6 +58,8 @@ app.controller('TodoListController', function($scope, $interval, Session) {
   	$scope.initial = new Date('04-17-2018').getTime();
   	$scope.current_result = new Date(new Date().toDateString()).getTime();
 
+    $scope.screener_result_active = [];
+
   	$scope.filter_results = function(){
   		$scope.buy_result = angular.copy($scope.screener_result.filter(function(a){
 	  		return a.loadedTime > $scope.current_result && a.loadedTime < $scope.current_result+86400000 && a.fiveMins === 'Strong Buy' && a.fifteenMins === 'Strong Buy' && a.hourly === 'Strong Buy';
@@ -81,6 +71,10 @@ app.controller('TodoListController', function($scope, $interval, Session) {
 	  	}));
 	  	$scope.sell_result_map = $scope.sell_result.map((aa) => aa.stockName);
 	  	$scope.sell_result = $scope.sell_result.filter((v, i) => $scope.sell_result_map.indexOf(v.stockName) === i);
+
+      $scope.screener_result_active = angular.copy($scope.screener_result.filter(function(a){
+        return a.loadedTime > $scope.current_result && a.loadedTime < $scope.current_result+86400000;
+      }));
 
 	   };
 

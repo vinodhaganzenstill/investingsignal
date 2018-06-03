@@ -35,7 +35,7 @@
 		<th>Signal</th>
 		<th>Time</th>
 	</tr>
-	<tr ng-repeat="scr in screener_result | filter: filter | orderBy: 'loadedTime' : true">
+	<tr ng-repeat="scr in screener_result_active | filter: filter | orderBy: 'loadedTime' : true">
 		<td>{{$index+1}}</td>
 		<td>{{scr.stockName}}</td>
 		<td>{{scr.stockPrice}}</td>
