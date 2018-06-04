@@ -12,7 +12,9 @@ app.controller('TodoListController', function($scope, $interval, Session) {
          angular.forEach(results, function(scre,k){
           new_resuts[k] = [];
           angular.forEach(scre, function(i2,k2){
+            if(k2<5){
               new_resuts[k].push(angular.copy(i2));
+            }
           });
          });
          $scope.$apply(function(){
