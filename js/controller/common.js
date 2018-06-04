@@ -11,10 +11,12 @@ app.controller('TodoListController', function($scope, $interval, Session) {
          var new_resuts = {};
          angular.forEach(results, function(scre,k){
           new_resuts[k] = [];
+          var kk2 = 0;
           angular.forEach(scre, function(i2,k2){
-            if(k2<5){
+            if(kk2<5){
               new_resuts[k].push(angular.copy(i2));
             }
+            kk2++;
           });
          });
          $scope.$apply(function(){
