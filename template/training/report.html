@@ -1,0 +1,31 @@
+<div>
+	<h3>Order History</h3>
+	<div class="row">
+		<div class="col-md-12">
+			<table>
+				<tr>
+					<th>#</th>
+					<th>Stock</th>
+					<th>Qty</th>
+					<th>Buy Price</th>
+					<th>Buy Time</th>
+					<th>Sell Price</th>
+					<th>Sell Time</th>
+					<th>Profit</th>
+					<th>Brokerage</th>
+				</tr>
+				<tr ng-repeat="ord in report | orderBy: 'order_time' : true track by $index">
+					<td>{{$index+1}}</td>
+					<td>{{ord.stock}}</td>
+					<td>{{ord.quantity}}</td>
+					<td>{{ord.type == 'Buy' ? ord.order_price : orderlist[ord.parent].order_price}}</td>
+					<td>{{ord.type == 'Buy' ? (ord.order_time | date : 'MMM d, y h:mm:ss') : (orderlist[ord.parent].order_time | date : 'MMM d, y h:mm:ss')}}</td>
+					<td>{{ord.type == 'Buy' ? orderlist[ord.parent].order_price : ord.order_price}}</td>
+					<td>{{ord.type == 'Buy' ? (orderlist[ord.parent].order_time | date : 'MMM d, y h:mm:ss') : (ord.order_time | date : 'MMM d, y h:mm:ss')}}</td>
+					<td ng-class="{'col-green': profit(ord, orderlist[ord.parent].order_price) >= 0, 'col-red': profit(ord, orderlist[ord.parent].order_price) < 0}">{{profit(ord, orderlist[ord.parent].order_price)}}</td>
+					<td>{{((ord.order_price*ord.quantity) * (0.10/100)) + ((orderlist[ord.parent].order_price*ord.quantity) * (0.10/100))}}</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>

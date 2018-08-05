@@ -4,10 +4,12 @@
 .train-menu{ padding:0; background: #2A8EFF; }
 .train-menu li{ list-style-type: none; padding:10px 15px; border-bottom: 1px solid #ededed; color:#fff; cursor:pointer; }
 .train-menu li:hover{background:#1565C0; }
-.right-details{ margin-top:30px; padding-left:0;}
+.right-details{ padding-left:25px;}
+.col-green{color: green;}
+.col-red{color: red;}
 </style>
 <div class="virtual_training" ng-controller="VirtualController">
-	<div class="row">
+	<div class="row" ng-show="is_logged_in">
 		<div class="col-md-3 side-menu">
 			<ul class="train-menu">
 				<li ng-click="training_tab=1" ng-class="{active:training_tab==1}">Place Order</li>
@@ -21,7 +23,7 @@
 			<div ng-if="training_tab == 1" class="place_order" ng-include src="'template/training/place_order.html'"></div>
 			<div ng-if="training_tab == 2" class="open_order" ng-include src="'template/training/open_order.html'"></div>
 			<div ng-if="training_tab == 3" class="order_history" ng-include src="'template/training/order_history.html'"></div>
-			<div ng-if="training_tab == 4" class="order_history" ng-include src="'template/training/report.html'"></div>
+			<div ng-if="training_tab == 4" class="report" ng-include src="'template/training/report.html'"></div>
 			<div ng-if="training_tab == 5" class="account" ng-include src="'template/training/account.html'"></div>
 		</div>
 	</div>
