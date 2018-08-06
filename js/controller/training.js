@@ -96,7 +96,7 @@ app.controller('VirtualController', function($scope, $timeout, Session) {
       $scope.order.new = 1;
       $scope.order.parent = 0;
 
-      $tt = (500000-amount_used-brokerage+profitloss).toFixed(2);
+      $tt = (500000-$scope.amount_used-$scope.brokerage+$scope.profitloss).toFixed(2);
       if($tt > $scope.order.order_price*$scope.order.quantity){
     		orders.push($scope.order);
     		$scope.order = {};
