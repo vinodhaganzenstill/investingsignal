@@ -19,23 +19,26 @@ app.controller('VirtualController', function($scope, $timeout, Session) {
 
   $scope.user = Session.user;
 
+  $scope.getAmt = function(price){
+      return price.replace(/,/g, '');
+  };
+
   $scope.profit = function(ord, price){
       var profit;
 
       price = price === undefined ? $scope.$parent.current_price[ord.stock].stockPrice : price;
 
       if(ord.type == 'Sell')
-        profit = ((ord.order_price.replace(/,/g, '') - price.replace(/,/g, '')) * ord.quantity).toFixed(2);
+        profit = (($scope.getAmt(ord.order_price) - $scope.getAmt(price)) * ord.quantity).toFixed(2);
       else
-        profit = ((price.replace(/,/g, '') - ord.order_price.replace(/,/g, '')) * ord.quantity).toFixed(2);
+        profit = ($scope.getAmt(price) - $scope.getAmt(ord.order_price)) * ord.quantity).toFixed(2);
 
 
       return profit;
-    };
-
+  };
 
 	var orders = new Firebase('https://sharemarket-52975.firebaseio.com/Orders/'+$scope.user.id+'/');
-	 orders.on('value', function(snapshot) {
+	orders.on('value', function(snapshot) {
       $scope.myorders = [];
       $scope.report = [];
       $scope.openorder = [];
@@ -47,14 +50,14 @@ app.controller('VirtualController', function($scope, $timeout, Session) {
   		angular.forEach(results, function(res,k){
         res.id = k;
         if(res.new === 1){
-          $scope.amount_used += (res.order_price*res.quantity);
+          $scope.amount_used += ($scope.getAmt(res.order_price)*res.quantity);
           $scope.openorder.push(res);
         }
         if(res.parent !== 0){
-          $scope.profitloss += parseFloat($scope.profit(res, $scope.orderlist[res.parent].order_price));
+          $scope.profitloss += parseFloat($scope.profit(res, $scope.getAmt($scope.orderlist[res.parent].order_price)));
           $scope.report.push(res);
         }
-        $scope.brokerage += ((res.order_price*res.quantity) * (0.10/100));
+        $scope.brokerage += (($scope.getAmt(res.order_price)*res.quantity) * (0.06/100));
   		 	$scope.myorders.push(res);
         $scope.orderlist[k] = res;
   		 });
