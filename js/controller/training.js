@@ -49,7 +49,7 @@ app.controller('VirtualController', function($scope, $timeout, Session) {
   		var results = snapshot.val();
   		angular.forEach(results, function(res,k){
         res.id = k;
-        res.brokerage = (($scope.getAmt(res.order_price)*res.quantity) * (0.06/100)).toFixed(2);
+        res.brokerage = parseFloat((($scope.getAmt(res.order_price)*res.quantity) * (0.06/100)).toFixed(2));
         $scope.brokerage += res.brokerage;
   		 	$scope.myorders.push(res);
         $scope.orderlist[k] = res;
