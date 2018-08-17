@@ -9,6 +9,7 @@
 					<th>Qty</th>
 					<th>Avg Price</th>
 					<th>Type</th>
+					<th>Brokerage</th>
 					<th>Order Time</th>
 				</tr>
 				<tr ng-repeat="ord in myorders | orderBy: 'order_time' : true track by $index">
@@ -20,6 +21,7 @@
 					</td>
 					<td>{{ord.order_price}}</td>
 					<td>{{ord.type}}</td>
+					<td>{{ord.brokerage}}</td>
 					<td>{{ord.order_time | date : 'MMM d, y h:mm:ss'}}</td>
 				</tr>
 			</table>
