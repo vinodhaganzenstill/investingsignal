@@ -58,7 +58,7 @@ app.controller('VirtualController', function($scope, $timeout, Session) {
           $scope.openorder.push(res);
         }
         if(res.parent !== 0){
-          res.profit = parseFloat($scope.profit(res, $scope.getAmt($scope.orderlist[res.parent].order_price))).toFixed(2);
+          res.profit = parseFloat(parseFloat($scope.profit(res, $scope.getAmt($scope.orderlist[res.parent].order_price))).toFixed(2));
           $scope.profitloss += res.profit;
           $scope.report.push(res);
         }
