@@ -49,17 +49,19 @@ app.controller('VirtualController', function($scope, $timeout, Session) {
   		var results = snapshot.val();
   		angular.forEach(results, function(res,k){
         res.id = k;
+        res.brokerage = (($scope.getAmt(res.order_price)*res.quantity) * (0.06/100)).toFixed(2);
+        $scope.brokerage += res.brokerage;
+  		 	$scope.myorders.push(res);
+        $scope.orderlist[k] = res;
         if(res.new === 1){
           $scope.amount_used += ($scope.getAmt(res.order_price)*res.quantity);
           $scope.openorder.push(res);
         }
         if(res.parent !== 0){
-          $scope.profitloss += parseFloat($scope.profit(res, $scope.getAmt($scope.orderlist[res.parent].order_price)));
+          res.profit = parseFloat($scope.profit(res, $scope.getAmt($scope.orderlist[res.parent].order_price))).toFixed(2);
+          $scope.profitloss += res.profit;
           $scope.report.push(res);
         }
-        $scope.brokerage += (($scope.getAmt(res.order_price)*res.quantity) * (0.06/100));
-  		 	$scope.myorders.push(res);
-        $scope.orderlist[k] = res;
   		 });
   	});
 
