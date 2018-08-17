@@ -3,23 +3,23 @@
 	<div class="row">
 		<div class="col-md-12">
 			<label class="col-md-4">Account Value</label>
-			<span class="col-md-8">500000</span>
+			<span class="col-md-2 text-right">500000</span>
 		</div>
 		<div class="col-md-12">
 			<label class="col-md-4">Amount Used</label>
-			<span class="col-md-8">{{amount_used.toFixed(2)}}</span>
+			<span class="col-md-2 text-right">{{amount_used.toFixed(2)}}</span>
 		</div>
 		<div class="col-md-12">
 			<label class="col-md-4">Brokerge</label>
-			<span class="col-md-8">{{brokerage.toFixed(2)}}</span>
+			<span class="col-md-2 text-right">{{brokerage.toFixed(2)}}</span>
 		</div>
 		<div class="col-md-12">
 			<label class="col-md-4">Total Profit</label>
-			<span class="col-md-8">{{profitloss.toFixed(2)}}</span>
+			<span class="col-md-2 text-right">{{profitloss.toFixed(2)}}</span>
 		</div>
 		<div class="col-md-12">
 			<label class="col-md-4">Avaiable Balance</label>
-			<span class="col-md-8">{{(500000-amount_used-brokerage+profitloss).toFixed(2)}}</span>
+			<span class="col-md-2 text-right">{{(500000-amount_used-brokerage+profitloss).toFixed(2)}}</span>
 		</div>
 	</div>
 </div>
