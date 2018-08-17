@@ -31,7 +31,7 @@ app.controller('VirtualController', function($scope, $timeout, Session) {
       if(ord.type == 'Sell')
         profit = (($scope.getAmt(ord.order_price) - $scope.getAmt(price)) * ord.quantity).toFixed(2);
       else
-        profit = ($scope.getAmt(price) - $scope.getAmt(ord.order_price)) * ord.quantity).toFixed(2);
+        profit = (($scope.getAmt(price) - $scope.getAmt(ord.order_price)) * ord.quantity).toFixed(2);
 
 
       return profit;
