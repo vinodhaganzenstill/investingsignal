@@ -22,8 +22,8 @@
 					<td>{{ord.type == 'Buy' ? (ord.order_time | date : 'MMM d, y h:mm:ss') : (orderlist[ord.parent].order_time | date : 'MMM d, y h:mm:ss')}}</td>
 					<td>{{ord.type == 'Buy' ? orderlist[ord.parent].order_price : ord.order_price}}</td>
 					<td>{{ord.type == 'Buy' ? (orderlist[ord.parent].order_time | date : 'MMM d, y h:mm:ss') : (ord.order_time | date : 'MMM d, y h:mm:ss')}}</td>
-					<td ng-class="{'col-green': res.profit >= 0, 'col-red': res.profit < 0}">{{res}}</td>
-					<td>{{ord.brokerage + orderlist[ord.parent].brokerage}}</td>
+					<td ng-class="{'col-green': ord.profit >= 0, 'col-red': ord.profit < 0}">{{ord.profit}}</td>
+					<td>{{(ord.brokerage + orderlist[ord.parent].brokerage).toFixed(2)}}</td>
 				</tr>
 			</table>
 		</div>
